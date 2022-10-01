@@ -1,0 +1,239 @@
+header {
+  display: block;
+  width: 100%;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.432);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #f7f9fb;
+  height: 66px;
+  z-index: 999;
+
+  nav {
+    > ul {
+      display: block;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3px 0;
+
+      > li {
+        display: inline-block;
+        list-style: none;
+        height: 100%;
+        margin: 0 2rem;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 0;
+
+        &#logo {
+          a img {
+            width: 60px;
+          }
+        }
+
+        &#search {
+          width: calc(100% - 328px);
+
+          > div {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 550px;
+
+            position: relative;
+            top: 0;
+            left: 0;
+
+            * {
+              vertical-align: top;
+            }
+
+            > ul > li > a > div > img {
+              display: none;
+            }
+
+            input {
+              display: block;
+              width: 100%;
+              padding: .7rem 2rem;
+
+              border: 1px solid #00000088;
+              border-radius: 5px;
+            }
+
+            &.active {
+
+              input {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+              }
+
+              > ul {
+                display: block;
+                width: 100%;
+                z-index: 10;
+
+                position: absolute;
+                top: 100%;
+                left: 0;
+
+                background-color: white;
+                border: 1px solid black;
+                border-top: none;
+                border-radius: 0 0 5px 5px;
+
+                transition: all 250ms;
+
+                > li {
+                  display: block;
+                  text-align: left;
+                  border: 1px solid #00000021;
+                  border-left: none;
+                  border-right: none;
+
+                  &:hover {
+                    background-color: #0000000a;
+                  }
+
+                  > a {
+                    display: block;
+                    padding: 5px 2px 5px 20px;
+                    font-size: 0;
+
+                    > div {
+                      font-size: 2rem;
+                      display: inline-block;
+                      width: 75%;
+                      padding-top: 10px;
+
+                      &.image {
+                        padding-top: 0;
+                        width: 25%;
+
+                        img {
+                          width: auto;
+                          display: block;
+                          max-height: 75px;
+                          max-width: 100%;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        &#user,
+        &#basket {
+          a img {
+            width: 50px;
+          }
+
+          &:hover {
+            background-color: #00000021;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#searching-overlay {
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background-color: #0c0c0c45;
+}
+
+@media (max-width: 800px) {
+  header nav > ul > li {
+    margin: 0 .5rem;
+
+    &#search {
+      width: calc(100% - 250px);
+    }
+
+    &#user, &#basket {
+      a img {
+        width: 60px;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  header nav > ul > li {
+    margin: 0;
+
+    &#logo {
+      margin-right: .5rem;
+    }
+
+    &#search {
+      width: calc(100% - 225px);
+    }
+
+    &#search > div {
+
+      input {
+        height: 45px;
+        padding: 0.1rem 1rem;
+        font-size: 2.5rem;
+      }
+
+      &.active > ul {
+        width: 95vw;
+        position: fixed;
+        top: 66px;
+        left: 1.5vw;
+      }
+
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  header {
+    height: 50px;
+
+    nav > ul {
+      padding: 0;
+
+      > li {
+        &#logo a img {
+          width: 45px;
+        }
+
+        &#search {
+          width: calc(100% - 155px);
+
+          > div {
+            input {
+              height: 36px;
+              padding: 0.08rem 1rem;
+            }
+
+            &.active > ul {
+              width: 97vw;
+              top: 50px;
+              //left: 1.5vw;
+            }
+          }
+        }
+
+        &#user, &#basket {
+          a img {
+            width: 48px;
+          }
+        }
+      }
+    }
+  }
+}

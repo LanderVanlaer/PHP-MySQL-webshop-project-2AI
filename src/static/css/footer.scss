@@ -1,0 +1,40 @@
+footer {
+  display: block;
+  padding: .75rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 5rem;
+
+  color: white;
+  background-color: #09BDEA;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.432);
+
+  * {
+    vertical-align: middle;
+  }
+
+  a:hover {
+    color: #663AE6;
+  }
+
+  .copy {
+    font-size: 2rem;
+  }
+
+  > div {
+    display: block;
+    margin: .75rem 0;
+
+    div {
+      display: inline-block;
+      margin: 0 1rem;
+
+      a {
+        margin: 0 2px;
+      }
+    }
+  }
+}
+
+//663AE6
+//09BDEA

@@ -1,0 +1,15 @@
+# https://httpd.apache.org/docs/2.4/rewrite/flags.html
+RewriteEngine On
+
+RewriteBase /
+
+# Show Apache FTP-style directory
+#RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(static/.*)$ index.php [QSA,L]
+RewriteRule ^(api/.+)$ $1 [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+# QSA->qsappend append query string, L->last end the rewrite
+RewriteRule ^(.*)$ index.php [QSA,L]
