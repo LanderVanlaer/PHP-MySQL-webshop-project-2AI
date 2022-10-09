@@ -3,6 +3,30 @@
     abstract class Route
     {
         private static ?mysqli $con = null;
+        /**
+         * @var bool Whether the admin has to be logged in
+         */
+        public bool $hasToBeLoggedInAsAdmin = false;
+        /**
+         * @var bool Whether the Customer has to be logged in
+         */
+        public bool $hasToBeLoggedInAsUser = false;
+        /**
+         * @var bool Whether it is an admin page or not
+         */
+        public bool $isAdminPage = false;
+
+        /**
+         * @param bool $hasToBeLoggedInAsUser
+         * @param bool $hasToBeLoggedInAsAdmin
+         * @param bool $isAdminPage
+         */
+        public function __construct(bool $hasToBeLoggedInAsUser, bool $hasToBeLoggedInAsAdmin, bool $isAdminPage) {
+            $this->hasToBeLoggedInAsUser = $hasToBeLoggedInAsUser;
+            $this->hasToBeLoggedInAsAdmin = $hasToBeLoggedInAsAdmin;
+            $this->isAdminPage = $isAdminPage;
+        }
+
 
         /**
          * Get database connection

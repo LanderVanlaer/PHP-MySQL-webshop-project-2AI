@@ -2,7 +2,7 @@
 
     namespace utils\page;
 
-    function generatePage(string $title, callable $renderHead, callable $render): void {
+    function generatePage(bool $isAdminPage, string $title, callable $renderHead, callable $render): void {
         ?>
 
         <!doctype html>
@@ -20,14 +20,29 @@
             <link rel="mask-icon" href="/static/images/logo_basic.svg" color="#000000">
             <link rel="apple-touch-icon" href="/static/images/logo_basic.svg">
 
+            <?php if ($isAdminPage) { ?>
+                <link rel="stylesheet" href="/static/css/admin/style.css">
+            <?php } ?>
+
             <?php $renderHead() ?>
             <title><?= $title ?></title>
         </head>
         <body>
-            <?php include "components/header.php" ?>
-            <main>
-                <?php $render() ?>
-            </main>
+            <?php if ($isAdminPage) {
+                include "components/adminHeader.php";
+            ?>
+            <div id="admin-content-wrapper">
+                <?php
+                    include "components/adminAsideNav.php";
+                    } else {
+                    include "components/header.php";
+                } ?>
+                <main>
+                    <?php $render() ?>
+                </main>
+                <?php if ($isAdminPage) { ?>
+            </div>
+        <?php } ?>
             <?php include "components/footer.php" ?>
         </body>
         </html>

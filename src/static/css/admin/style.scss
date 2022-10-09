@@ -1,0 +1,76 @@
+#admin-content-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 66px;
+
+  main {
+    margin-top: 0;
+  }
+}
+
+#admin-tables-nav {
+  margin-top: 5px;
+
+  nav {
+    font-size: 20px;
+    margin-left: 5px;
+    width: 210px;
+
+    ul li {
+      margin: 4px 0;
+      width: 100%;
+      color: white;
+      background-color: #09BDEA;
+
+      &:hover {
+        margin-left: 6px;
+        background-color: #09b2de;
+      }
+
+      &:active {
+        background-color: #097d9a;
+      }
+
+      a {
+        padding: 4px;
+        text-decoration: none;
+        display: block;
+
+        &:hover, &:focus {
+          font-weight: bold;
+        }
+      }
+
+      &.active {
+        margin-left: 6px;
+        background-color: #0798be;
+      }
+    }
+  }
+}
+
+main form {
+  font-size: 3rem;
+
+  table {
+    margin: 0 auto;
+
+    tr {
+      td {
+        padding: 10px;
+
+        &[colspan="2"] {
+          text-align: center;
+        }
+
+        input {
+          font-size: 2rem;
+        }
+
+        button.btn-blue {
+          font-size: 3rem;
+        }
+      }
+    }
+  }
+}

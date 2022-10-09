@@ -10,5 +10,7 @@
     function getRoutes(): array {
         return array(
             new Homepage(),
+            new AdminLogin(),
+            new AdminLogout(),
         );
     }

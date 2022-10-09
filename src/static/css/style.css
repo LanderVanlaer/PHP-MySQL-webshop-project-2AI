@@ -115,6 +115,7 @@ input[type=checkbox]:focus ~ span.checkbox-custom {
   margin: 2px;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 }
 .btn-blue:focus {
   outline: 1px solid #ffffff;

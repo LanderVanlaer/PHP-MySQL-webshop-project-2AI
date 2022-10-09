@@ -1,0 +1,85 @@
+form {
+  margin: 10px;
+  font-size: 3rem;
+
+  input {
+    font-size: 2rem;
+  }
+
+  &.margin {
+    margin: 10px 50px;
+  }
+
+  div.form-error ul {
+    list-style: none;
+    display: inline-block;
+
+    li {
+      font-size: 2rem;
+      color: #752525;
+      background-color: rgb(221, 221, 221);
+      text-align: justify;
+      display: block;
+      margin: 1rem auto;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+  }
+
+  fieldset {
+    margin: 50px 10px;
+    padding: 5px 0;
+    border: none;
+
+    legend {
+      padding: 0 10px;
+      font-size: 3rem;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+
+    tr {
+      th {
+        font-size: 2.2rem;
+        text-align: center;
+      }
+
+      td {
+        padding: 10px;
+
+        &[colspan="2"] {
+          text-align: center;
+        }
+
+        input {
+          width: 30rem;
+
+          &[type="number"] {
+            width: 15rem;
+          }
+        }
+      }
+    }
+  }
+
+  button.btn-blue, input.btn-blue {
+    font-size: 3rem;
+  }
+
+  label {
+    font-size: 2rem;
+  }
+
+  .required {
+    &::after {
+      content: "\00a0*"; //nbsp
+      color: red;
+    }
+  }
+
+  .none {
+    display: none;
+  }
+}

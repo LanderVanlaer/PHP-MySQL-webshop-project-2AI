@@ -1,0 +1,3 @@
+<!ELEMENT Errors (error+)>
+        <!ELEMENT error (#PCDATA)>
+        <!ATTLIST error id ID NCName #REQUIRED>

@@ -6,9 +6,12 @@
 
     class Homepage extends Route
     {
+        public function __construct() {
+            parent::__construct(false, false, false);
+        }
 
         public function matchesPath(string $path): bool {
-            return $path === "/";
+            return $path === "";
         }
 
         public function render(): void {

@@ -1,0 +1,63 @@
+#admin-content-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 66px;
+}
+#admin-content-wrapper main {
+  margin-top: 0;
+}
+
+#admin-tables-nav {
+  margin-top: 5px;
+}
+#admin-tables-nav nav {
+  font-size: 20px;
+  margin-left: 5px;
+  width: 210px;
+}
+#admin-tables-nav nav ul li {
+  margin: 4px 0;
+  width: 100%;
+  color: white;
+  background-color: #09BDEA;
+}
+#admin-tables-nav nav ul li:hover {
+  margin-left: 6px;
+  background-color: #09b2de;
+}
+#admin-tables-nav nav ul li:active {
+  background-color: #097d9a;
+}
+#admin-tables-nav nav ul li a {
+  padding: 4px;
+  text-decoration: none;
+  display: block;
+}
+#admin-tables-nav nav ul li a:hover, #admin-tables-nav nav ul li a:focus {
+  font-weight: bold;
+}
+#admin-tables-nav nav ul li.active {
+  margin-left: 6px;
+  background-color: #0798be;
+}
+
+main form {
+  font-size: 3rem;
+}
+main form table {
+  margin: 0 auto;
+}
+main form table tr td {
+  padding: 10px;
+}
+main form table tr td[colspan="2"] {
+  text-align: center;
+}
+main form table tr td input {
+  font-size: 2rem;
+}
+main form table tr td button.btn-blue {
+  font-size: 3rem;
+}
+
+/*# sourceMappingURL=style.css.map */
