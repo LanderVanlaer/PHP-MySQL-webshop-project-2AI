@@ -12,5 +12,6 @@
             new Homepage(),
             new AdminLogin(),
             new AdminLogout(),
+            new AdminBrand(),
         );
     }

@@ -178,5 +178,7 @@ fabric.properties
 /src/static/js/*.js
 /src/static/js/*.js.map
 
-/src/static/css/*.css
-/src/static/css/*.css.map
+/src/static/css/**/*.css
+/src/static/css/**/*.css.map
+
+/src/images

@@ -125,33 +125,28 @@ input {
   border-radius: 5px;
   padding: 10px;
   box-shadow: 1px 1px 6px #545454;
-  margin: 2px;
   color: white;
+  font-size: 1.75rem;
   font-weight: bold;
   cursor: pointer;
+  display: inline-block;
 
   &:focus {
-    outline: 1px solid #ffffff;
-  }
-
-  &:active {
-    border: 1px solid #00000005;
-    margin: 1px;
-    outline: none;
+    outline: 2px solid black;
   }
 
   &:hover {
     background-color: #0cabd4;
   }
+
+  &:active {
+    background-color: #0d9abd;
+  }
 }
 
 a.btn-blue {
-  &, &:focus, &:active, &:visited {
-    font-size: 2rem;
-    color: white;
-    text-decoration: none;
-    display: inline-block;
-  }
+  color: white;
+  text-decoration: none;
 }
 
 .center {
