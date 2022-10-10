@@ -1,4 +1,9 @@
 # https://httpd.apache.org/docs/2.4/rewrite/flags.html
+
+<FilesMatch "autoloader.php|defaultPage.php|Route.php">
+    Require all denied
+</FilesMatch>
+
 RewriteEngine On
 
 RewriteBase /
