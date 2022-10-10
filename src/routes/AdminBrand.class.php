@@ -21,7 +21,6 @@
 
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/admin/table.css">
-            <link rel="stylesheet" href="/static/css/form.css">
         <?php }
 
         public function render(): void { ?>

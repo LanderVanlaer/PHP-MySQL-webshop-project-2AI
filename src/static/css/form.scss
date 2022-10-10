@@ -70,6 +70,15 @@ form {
 
   label {
     font-size: 2rem;
+
+    &.vertical {
+      display: block;
+
+      input {
+        display: block;
+        margin: 10px 0 15px;
+      }
+    }
   }
 
   .required {

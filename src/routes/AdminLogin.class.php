@@ -56,7 +56,6 @@
         }
 
         public function renderHead(): void { ?>
-            <link rel="stylesheet" href="/static/css/admin/login.css">
             <link rel="stylesheet" href="/static/css/form.css">
         <?php }
 
@@ -74,11 +73,11 @@
                             </ul>
                         </div>
                     <?php } ?>
-                    <label>
+                    <label class="vertical">
                         <span class="required">Gebruikersnaam:</span>
                         <input type="text" name="username" id="username" required>
                     </label>
-                    <label>
+                    <label class="vertical">
                         <span class="required">Wachtwoord:</span>
                         <input type="password" name="password" id="password" required>
                     </label>

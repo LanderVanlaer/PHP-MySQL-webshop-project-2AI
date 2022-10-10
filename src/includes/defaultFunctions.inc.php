@@ -3,6 +3,11 @@
     namespace utils;
 
     /**
+     * The file extensions that are allowed to be used for uploading photos (images)
+     */
+    const UPLOAD_IMAGE_EXTENSIONS = array('jpg', 'jpeg', 'png', 'svg', 'jfif');
+
+    /**
      * Redirect the user to another page
      *
      * @param string $location The path url to redirect the user to
@@ -83,4 +88,53 @@
                 $newArr[$key] = $arr[$key];
 
         return $newArr;
+    }
+
+    /**
+     * Check whether a given file is of type image
+     *
+     * @param $file array A file object
+     * @return bool whether the file is an image
+     * @see UPLOAD_IMAGE_EXTENSIONS
+     */
+    function isImage($file) {
+        $extension = getFileExtension($file);
+        return in_array($extension, UPLOAD_IMAGE_EXTENSIONS);
+    }
+
+    /**
+     * Returns the extension of a file
+     *
+     * @param array $file A file object
+     * @return string The extension of the file
+     */
+    function getFileExtension(array $file): string {
+        $f = explode(".", $file["name"]);
+        return end($f);
+    }
+
+    /**
+     * Says whether the file is less than or equal to the given bytes.
+     *
+     * @param array $file a file object
+     * @param int $bytes The number of bytes the file should be less than or equal to
+     * @return bool whether the given array is a file and whether the file is smaller than or equal to the given bytes
+     */
+    function isFileSizeLess(array $file, int $bytes): bool {
+        return $file['size'] <= $bytes;
+    }
+
+    /**
+     * Stores a file, on the hard drive
+     *
+     * @param array $file The file to be saved
+     * @param string $d The directory to which the file is to be saved
+     * @return string The new name of the file
+     */
+    function saveFile(array $file, string $d): string {
+        $fileNameEx = getFileExtension($file);
+        $newFileName = uniqid('', true) . '.' . strtolower($fileNameEx);
+        $fileDestination = "$d/$newFileName";
+        move_uploaded_file($file['tmp_name'], $fileDestination);
+        return $newFileName;
     }

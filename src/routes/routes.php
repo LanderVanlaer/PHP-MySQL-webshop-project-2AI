@@ -13,5 +13,6 @@
             new AdminLogin(),
             new AdminLogout(),
             new AdminBrand(),
+            new AdminBrandCreate(),
         );
     }
