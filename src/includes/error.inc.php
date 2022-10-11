@@ -19,8 +19,8 @@
         return $arr;
     }
 
-    function getError(int $errCode): string {
+    function getError(int $errCode): string|int {
         global $errors;
 
-        return validateString($errors[$errCode]);
+        return empty($errors[$errCode]) ? $errCode : validateString($errors[$errCode]);
     }

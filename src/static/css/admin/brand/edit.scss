@@ -1,0 +1,31 @@
+#logo-type-choose-existing-div {
+  ul, li {
+    list-style: none;
+  }
+
+  > div {
+    display: flex;
+
+    > div {
+      width: 50%;
+
+      &:first-child {
+        min-width: 450px;
+
+        overflow-y: auto;
+        height: 25vw;
+      }
+
+      &:nth-child(2) {
+        background-color: #eeeeee;
+        padding: 20px;
+      }
+    }
+  }
+}
+
+#preview {
+  width: 100%;
+
+  max-height: 25vw;
+}

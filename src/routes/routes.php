@@ -14,5 +14,6 @@
             new AdminLogout(),
             new AdminBrand(),
             new AdminBrandCreate(),
+            new AdminBrandEdit(),
         );
     }

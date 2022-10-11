@@ -175,8 +175,8 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,phpstorm
 
 # CUSTOM
-/src/static/js/*.js
-/src/static/js/*.js.map
+/src/static/js/**/*.js
+/src/static/js/**/*.js.map
 
 /src/static/css/**/*.css
 /src/static/css/**/*.css.map
