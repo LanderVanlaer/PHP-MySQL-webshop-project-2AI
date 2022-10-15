@@ -182,3 +182,5 @@ fabric.properties
 /src/static/css/**/*.css.map
 
 /src/images
+
+/log

@@ -15,3 +15,4 @@
     require_once __DIR__ . "/includes/defaultFunctions.inc.php"; //NOSONAR
     require_once __DIR__ . "/includes/connection.inc.php"; //NOSONAR
     require_once __DIR__ . "/includes/error.inc.php"; //NOSONAR
+    require_once __DIR__ . "/includes/errorHandler.inc.php"; //NOSONAR

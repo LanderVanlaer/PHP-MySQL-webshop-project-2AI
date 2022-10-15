@@ -15,5 +15,6 @@
             new AdminBrand(),
             new AdminBrandCreate(),
             new AdminBrandEdit(),
+            new ErrorPage(),
         );
     }
