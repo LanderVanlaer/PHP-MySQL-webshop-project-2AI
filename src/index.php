@@ -21,6 +21,15 @@
         }
     }
 
+    if (!is_null($route) && ($route->hasToBeLoggedInAsUser || $route->hasToBeLoggedInAsAdmin || $route->isAdminPage)) {
+        session_start();
+
+        if ($route->hasToBeLoggedInAsUser && !isLoggedInAsUser())
+            redirect("/login");
+        if ($route->hasToBeLoggedInAsAdmin && !isLoggedInAsAdmin())
+            redirect("/admin/login");
+    }
+
     if (is_null($route) || !$route->preRender()) {
         http_response_code(404);
         generatePage(false,
@@ -33,15 +42,6 @@
             },
         );
     } else {
-        if ($route->hasToBeLoggedInAsUser || $route->hasToBeLoggedInAsAdmin || $route->isAdminPage) {
-            session_start();
-
-            if ($route->hasToBeLoggedInAsUser && !isLoggedInAsUser())
-                redirect("/login");
-            if ($route->hasToBeLoggedInAsAdmin && !isLoggedInAsAdmin())
-                redirect("/admin/login");
-        }
-
         //https://www.php.net/manual/en/functions.first_class_callable_syntax.php
         generatePage($route->isAdminPage, $route->getDocumentTitle(), $route->renderHead(...), $route->render(...));
     }
