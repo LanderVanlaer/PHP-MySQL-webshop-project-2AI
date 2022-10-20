@@ -18,5 +18,6 @@
             new ErrorPage(),
             new AdminCategory(),
             new AdminCategoryEdit(),
+            new AdminCategoryCreate(),
         );
     }
