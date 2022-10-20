@@ -17,5 +17,6 @@
             new AdminBrandEdit(),
             new ErrorPage(),
             new AdminCategory(),
+            new AdminCategoryEdit(),
         );
     }
