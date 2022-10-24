@@ -20,5 +20,6 @@
             new AdminCategoryEdit(),
             new AdminCategoryCreate(),
             new AdminCategorySubcategory(),
+            new AdminSubcategory(),
         );
     }

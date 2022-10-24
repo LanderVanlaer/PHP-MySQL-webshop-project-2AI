@@ -2,7 +2,7 @@
 
     namespace routes;
 
-    use database\entities\CategorySubcategoryRepository;
+    use database\entities\SubcategoryRepository;
     use Route;
 
     class AdminCategorySubcategory extends Route
@@ -37,7 +37,7 @@
                     <?php
                         $currentData = null;
 
-                        foreach (CategorySubcategoryRepository::findAllSortByCategoryId(self::getCon()) as $row) {
+                        foreach (SubcategoryRepository::findAllSortByCategoryId(self::getCon()) as $row) {
                             if (!empty($currentData)) {
                                 if ($currentData["category"]["id"] == $row["categoryId"]) {
                                     $currentData["subcategories"][] = ["id" => $row["subcategoryId"], "name" => $row["subcategoryName"],];
