@@ -7,6 +7,7 @@
   <error id="0">Gelieve alle velden in te vullen</error>
   <error id="1">Gebruikersnaam en wachtwoord combinatie bestaat niet</error>
   <error id="2">De ingevulde gegevens zijn niet geldig</error>
+  <error id="100">Er is iets fout gelopen</error>
   <error id="1000">Er is reeds een duplicaat</error>
   <error id="1500">Het gegeven bestand is geen (ondersteunde) afbeelding</error>
   <error id="1501">Het gegeven bestand is te groot</error>

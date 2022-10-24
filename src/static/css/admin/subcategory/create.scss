@@ -1,0 +1,38 @@
+table#specifications {
+  margin: 0;
+  border-collapse: collapse;
+
+  td:not(:last-child) {
+    border: 1px solid #dcdcdc;
+  }
+
+  td.edit {
+    padding: 0;
+    background-color: #09BDEA;
+
+    button {
+      display: block;
+      border: none;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      padding: 1rem;
+      background-color: #09BDEA;
+
+      &:hover, &:focus {
+        background-color: #0cabd4;
+      }
+
+      &:active {
+        background-color: #0e95b9;
+      }
+    }
+  }
+
+}
+
+#add-row {
+  font-size: 2rem;
+}
