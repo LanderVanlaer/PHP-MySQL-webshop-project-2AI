@@ -104,7 +104,9 @@
                 <?php } ?>
                 <label class="vertical">
                     <span class="required">Name:</span>
-                    <input type="text" name="name" id="name" required>
+                    <input type="text" name="name" id="name"
+                           value="<?= empty($GLOBALS["POST"]["name"]) ? "" : $GLOBALS["POST"]["name"] ?>"
+                           required>
                 </label>
                 <fieldset>
                     <legend>Specifications</legend>
@@ -125,34 +127,52 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="edit">
-                                    <button type="button" class="delete" id="delete-0">X</button>
-                                </td>
-                                <td>
-                                    <!--suppress HtmlFormInputWithoutLabel -->
-                                    <input type="text" maxlength="32" name="specification-name[0]"
-                                           id="specification-name[0]" required>
-                                </td>
-                                <td>
-                                    <!--suppress HtmlFormInputWithoutLabel -->
-                                    <select name="specification-type[0]" id="specification-type[0]" required>
-                                        <option value="" selected disabled>Choose an option</option>
-                                        <option value="string">String</option>
-                                        <option value="boolean">Boolean</option>
-                                        <option value="number">Number</option>
-                                        <option value="list">List</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <!--suppress HtmlFormInputWithoutLabel -->
-                                    <input type="text" max="255" name="specification-notation[0]"
-                                           id="specification-notation[0]">
-                                </td>
-                                <td>
-                                    <p id="specification-notation-example[0]"></p>
-                                </td>
-                            </tr>
+                            <?php foreach (
+                                    empty($GLOBALS["POST"]["specification-name"]) ?
+                                            [0 => ""] :
+                                            $GLOBALS["POST"]["specification-name"]
+                                    as $key => $specName): ?>
+                                <tr>
+                                    <td class="edit">
+                                        <button type="button" class="delete" data-id="<?= $key ?>">X</button>
+                                    </td>
+                                    <td>
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <input type="text" maxlength="32" name="specification-name[<?= $key ?>]"
+                                               id="specification-name[<?= $key ?>]" value="<?= $specName ?>" required>
+                                    </td>
+                                    <td>
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select name="specification-type[<?= $key ?>]"
+                                                id="specification-type[<?= $key ?>]" required>
+                                            <option value="" <?= !in_array($GLOBALS["POST"]["specification-type"][$key], ["string", "boolean", "number", "list"]) ? "selected" : "" ?>
+                                                    disabled>Choose an option
+                                            </option>
+                                            <option value="string" <?= $GLOBALS["POST"]["specification-type"][$key] == "string" && "selected" ?>>
+                                                String
+                                            </option>
+                                            <option value="boolean" <?= $GLOBALS["POST"]["specification-type"][$key] == "boolean" && "selected" ?>>
+                                                Boolean
+                                            </option>
+                                            <option value="number" <?= $GLOBALS["POST"]["specification-type"][$key] == "number" && "selected" ?>>
+                                                Number
+                                            </option>
+                                            <option value="list" <?= $GLOBALS["POST"]["specification-type"][$key] == "list" && "selected" ?>>
+                                                List
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <input type="text" max="255" name="specification-notation[<?= $key ?>]"
+                                               id="specification-notation[<?= $key ?>]"
+                                               value="<?= $GLOBALS["POST"]["specification-notation"][$key] ?>">
+                                    </td>
+                                    <td>
+                                        <p id="specification-notation-example[<?= $key ?>]"></p>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                         <tfoot>
                             <tr>

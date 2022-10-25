@@ -7,6 +7,13 @@ const EXAMPLE_DATA = {
   number: 20,
 };
 
+const newCurrentId = () => {
+  let newId = ++currentId;
+  while (document.querySelector(`[id="specification-name[${newId}]"]`)) ++newId;
+  currentId = newId;
+  console.log(currentId);
+};
+
 const configureSpecificationNotation = (id: number,
                                         exampleNotationPTag: HTMLParagraphElement,
                                         typeInput: HTMLSelectElement,
@@ -30,13 +37,16 @@ configureSpecificationNotation(0,
   document.getElementById('specification-type[0]') as HTMLSelectElement,
   document.getElementById('specification-notation[0]') as HTMLInputElement
 );
-configureDeleteButton(document.getElementById('delete-0') as HTMLButtonElement, 0);
+document.querySelectorAll<HTMLButtonElement>('#specifications > tbody > tr > td.edit > button').forEach(btn => {
+  if (btn.dataset.id && !isNaN(Number(btn.dataset.id)))
+    configureDeleteButton(btn, Number(btn.dataset.id));
+});
 
 const buttonAddRow = document.getElementById('add-row') as HTMLButtonElement;
 buttonAddRow.addEventListener('click', e => {
   e.preventDefault();
 
-  ++currentId;
+  newCurrentId();
 
   const tr = template.content.cloneNode(true) as HTMLTableRowElement;
 
