@@ -14,15 +14,16 @@
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
             <link rel="stylesheet" href="/static/css/style.css">
-            <script defer src="/static/js/header.js"></script>
             <meta name="theme-color" content="#ffffff">
             <link rel="icon" href="/static/images/logo_basic.svg">
             <link rel="mask-icon" href="/static/images/logo_basic.svg" color="#000000">
             <link rel="apple-touch-icon" href="/static/images/logo_basic.svg">
 
-            <?php if ($isAdminPage) { ?>
-                <link rel="stylesheet" href="/static/css/admin/style.css">
-            <?php } ?>
+            <?php if ($isAdminPage): ?>
+            <link rel="stylesheet" href="/static/css/admin/style.css">
+            <?php else: ?>
+                <script defer src="/static/js/header.js"></script>
+            <?php endif; ?>
 
             <?php $renderHead() ?>
             <title><?= $title ?></title>
