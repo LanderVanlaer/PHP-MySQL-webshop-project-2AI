@@ -128,8 +128,6 @@
             return $data;
         }
 
-        //TODO ADD DELETE BUTTON FOR SPECIFICATION
-
         private function getPreRender(int $id): bool {
             $subcategory = SubcategoryRepository::findOne(self::getCon(), $id);
             if (empty($subcategory)) return false;
