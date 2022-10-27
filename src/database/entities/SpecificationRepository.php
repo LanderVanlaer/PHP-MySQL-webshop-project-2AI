@@ -36,4 +36,19 @@
 
             return $con->insert_id;
         }
+
+        public static function delete(mysqli $con, int $id): bool {
+            $query1 = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/specification.delete.sql'));
+            $query2 = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/specification-property.delete.sql'));
+
+            $query1->bind_param("i", $id);
+            $query2->bind_param("i", $id);
+
+            $val1 = $query1->execute();
+            $val2 = $query2->execute();
+            $query1->close();
+            $query2->close();
+
+            return $val1 && $val2;
+        }
     }

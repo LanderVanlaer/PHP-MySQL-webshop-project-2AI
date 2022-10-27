@@ -73,6 +73,12 @@
                 }
             }
 
+            foreach ($data["delete"] as $delId)
+                if (!SpecificationRepository::delete(self::getCon(), $delId)) {
+                    $this->customError = self::getCon()->error;
+                    return false;
+                }
+
             redirect("/admin/subcategory");
         }
 
@@ -113,6 +119,12 @@
                 ];
             }
 
+            $data["delete"] = [];
+            if (!empty($d["specification-delete"]) && gettype($d["specification-delete"] == "array"))
+                foreach ($d["specification-delete"] as $delId)
+                    if (is_numeric($delId))
+                        $data["delete"][] = intval($delId);
+
             return $data;
         }
 
@@ -133,7 +145,7 @@
 
         public function render(): void { ?>
             <h1>Edit Subcategory (<?= $this->subcategory["id"] ?>)</h1>
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="#" method="POST" name="edit-form" enctype="multipart/form-data">
                 <?php if (count($this->errors) || !empty($this->customError)) { ?>
                     <div class="form-error">
                         <ul>

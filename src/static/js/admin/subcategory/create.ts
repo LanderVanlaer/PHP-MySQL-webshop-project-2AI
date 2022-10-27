@@ -1,5 +1,6 @@
 const template = document.getElementById('specification-template') as HTMLTemplateElement;
 const tableBody = document.querySelector<HTMLTableSectionElement>('#specifications tbody');
+const form: HTMLFormElement = document.forms['edit-form'];
 let currentId = -1;
 
 const EXAMPLE_DATA = {
@@ -27,7 +28,16 @@ const configureSpecificationNotation = (exampleNotationPTag: HTMLParagraphElemen
 
 const configureDeleteButton = (btn: HTMLButtonElement, id: number) => {
   btn.addEventListener('click', () => {
-    confirm('Are you sure, you want to delete this row?') && document.querySelector(`#specifications tr:has([id="specification-name[${id}]"])`).remove();
+    if (confirm('Are you sure, you want to delete this row?')) {
+      document.querySelector(`#specifications tr:has([id="specification-name[${id}]"])`).remove();
+      if (id >= 0) {
+        const input: HTMLInputElement = document.createElement('input');
+        input.type = 'hidden';
+        input.name = `specification-delete[]`;
+        input.value = String(id);
+        form.appendChild(input);
+      }
+    }
   });
 };
 
