@@ -40,7 +40,7 @@
                             <td class="edit"><a href="/admin/brand/<?= $row["id"] ?>/edit">edit</a></td>
                             <td class="right"><?= $row["id"] ?></td>
                             <td><?= $row["name"] ?></td>
-                            <td><a href="/images/brand/<?= $row["logo"] ?>"><?= $row["logo"] ?></a></td>
+                            <td><a href="/images/brand/<?= $row["logo"] ?>" target="_blank"><?= $row["logo"] ?></a></td>
                         </tr>
                     <?php } ?>
                 </tbody>
