@@ -2,49 +2,78 @@
 
     namespace routes;
 
+    use database\entities\SpecificationRepository;
     use database\entities\SubcategoryRepository;
     use Exception;
     use Route;
     use function utils\getErrors;
-    use function utils\isOneEmpty;
     use function utils\redirect;
 
-    class AdminSubcategoryCreate extends Route
+    class AdminSubcategoryEdit extends Route
     {
         private array $errors = [];
         private string $customError = "";
+        private array $subcategory = [];
 
         public function __construct() {
             parent::__construct(false, true, true);
         }
 
         public function matchesPath(string $path): bool {
-            return $path === "/admin/subcategory/create";
+            return preg_match("/^\/admin\/subcategory\/\d+\/edit$/", $path);
         }
 
         public function getDocumentTitle(): string {
-            return "Subcategory Create";
+            return "Subcategory {$this->subcategory["name"]} edit";
         }
 
         public function preRender(): bool {
-            if ($_SERVER["REQUEST_METHOD"] !== "POST") return parent::preRender();
+            preg_match("/^\/admin\/subcategory\/(\d+)\/edit/", $_SERVER["REDIRECT_URL"], $matches);
+
+            if (!is_numeric($matches[1]))
+                return false;
+
+            $id = intval($matches[1]);
+
+            if ($_SERVER["REQUEST_METHOD"] !== "GET" && $this->postPreRender($id)) {
+                redirect("/admin/subcategory");
+            }
+
+            return $this->getPreRender($id);
+        }
+
+        private function postPreRender(int $id): bool {
             try {
                 $data = $this->parseData($GLOBALS["POST"]);
             } catch (Exception $e) {
                 $this->customError = $e->getMessage();
-                return parent::preRender();
+                return false;
             }
 
-            foreach ($data["specifications"] as $specification) {
-                if (!in_array($specification["type"], ['list', 'boolean', 'number', 'string'])) {
-                    $this->customError = "\"type\" has to be of type ['list', 'boolean', 'number', 'string']";
-                    return parent::preRender();
+            if (!empty($GLOBALS["POST"]["specification-type"])) {
+                foreach ($data["specifications"] as $specification) {
+                    if ($specification["id"] < 0 && !in_array($specification["type"], ['list', 'boolean', 'number', 'string'])) {
+                        $this->customError = "\"type\" has to be of type ['list', 'boolean', 'number', 'string']";
+                        return false;
+                    }
                 }
             }
 
-            $id = SubcategoryRepository::createWithSpecifications(self::getCon(), $data);
+            if (!SubcategoryRepository::update(self::getCon(), $id, $data["name"])) {
+                $this->customError = mysqli_error(self::getCon());
+                return false;
+            }
 
-            redirect("/admin/subcategory/$id/edit");
+            foreach ($data["specifications"] as $specification) {
+                if ($specification["id"] >= 0 ?
+                        !SpecificationRepository::update(self::getCon(), $specification["id"], $id, $specification["name"], $specification["notation"])
+                        : !SpecificationRepository::create(self::getCon(), $specification["name"], $specification["type"], $specification["notation"], $id)) {
+                    $this->customError = mysqli_error(self::getCon());
+                    return false;
+                }
+            }
+
+            redirect("/admin/subcategory");
         }
 
         /**
@@ -57,9 +86,8 @@
                 throw new Exception("\"name\" does not exist");
 
             if (
-                    isOneEmpty($d["specification-name"], $d["specification-type"])
+                    empty($d["specification-name"])
                     || gettype($d["specification-name"]) != "array"
-                    || gettype($d["specification-type"]) != "array"
                     || (!empty($d["specification-notation"]) && gettype($d["specification-notation"]) != "array")
             )
                 throw new Exception("Invalid data");
@@ -68,16 +96,33 @@
             $data["specifications"] = [];
 
             foreach ($d["specification-name"] as $id => $name) {
+                if (empty($d["specification-type"][$id])) {
+                    if ($id < 0) throw new Exception("Invalid data");
+
+                    $type = "";
+                } else {
+                    $type = $d["specification-type"][$id];
+                }
+
+
                 $data["specifications"][] = [
+                        "id" => $id,
                         "name" => $name,
-                        "type" => empty($d["specification-type"][$id]) ?
-                                throw new Exception("Invalid data") :
-                                $d["specification-type"][$id],
+                        "type" => $type,
                         "notation" => empty($d["specification-notation"][$id]) ? "" : $d["specification-notation"][$id],
                 ];
             }
 
             return $data;
+        }
+
+        //TODO ADD DELETE BUTTON FOR SPECIFICATION
+
+        private function getPreRender(int $id): bool {
+            $subcategory = SubcategoryRepository::findOne(self::getCon(), $id);
+            if (empty($subcategory)) return false;
+            $this->subcategory = $subcategory;
+            return parent::preRender();
         }
 
         public function renderHead(): void { ?>
@@ -87,7 +132,7 @@
         <?php }
 
         public function render(): void { ?>
-            <h1>Create new Subcategory</h1>
+            <h1>Edit Subcategory (<?= $this->subcategory["id"] ?>)</h1>
             <form action="#" method="POST" enctype="multipart/form-data">
                 <?php if (count($this->errors) || !empty($this->customError)) { ?>
                     <div class="form-error">
@@ -104,9 +149,7 @@
                 <?php } ?>
                 <label class="vertical">
                     <span class="required">Name:</span>
-                    <input type="text" name="name" id="name"
-                           value="<?= empty($GLOBALS["POST"]["name"]) ? "" : $GLOBALS["POST"]["name"] ?>"
-                           required>
+                    <input type="text" name="name" id="name" value="<?= $this->subcategory["name"] ?>" required>
                 </label>
                 <fieldset>
                     <legend>Specifications</legend>
@@ -127,49 +170,49 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach (
-                                    empty($GLOBALS["POST"]["specification-name"]) ?
-                                            [-1 => ""] :
-                                            $GLOBALS["POST"]["specification-name"]
-                                    as $key => $specName): ?>
+                            <?php foreach (SpecificationRepository::findAllBySubcategoryId(self::getCon(), $this->subcategory["id"])
+                                           as $specification): ?>
                                 <tr>
                                     <td class="edit">
-                                        <button type="button" class="delete" data-id="<?= $key ?>">X</button>
+                                        <button type="button" class="delete" data-id="<?= $specification["id"] ?>">X
+                                        </button>
                                     </td>
                                     <td>
                                         <!--suppress HtmlFormInputWithoutLabel -->
-                                        <input type="text" maxlength="32" name="specification-name[<?= $key ?>]"
-                                               id="specification-name[<?= $key ?>]" value="<?= $specName ?>" required>
+                                        <input type="text" maxlength="32"
+                                               name="specification-name[<?= $specification["id"] ?>]"
+                                               id="specification-name[<?= $specification["id"] ?>]"
+                                               value="<?= $specification["name"] ?>" required>
                                     </td>
                                     <td>
                                         <!--suppress HtmlFormInputWithoutLabel -->
-                                        <select name="specification-type[<?= $key ?>]"
-                                                id="specification-type[<?= $key ?>]" required>
-                                            <option value="" <?= !in_array($GLOBALS["POST"]["specification-type"][$key], ["string", "boolean", "number", "list"]) ? "selected" : "" ?>
+                                        <select id="specification-type[<?= $specification["id"] ?>]" disabled>
+                                            <option value="" <?= !in_array($specification["type"], ["string", "boolean", "number", "list"]) ? "selected" : "" ?>
                                                     disabled>Choose an option
                                             </option>
-                                            <option value="string" <?= $GLOBALS["POST"]["specification-type"][$key] == "string" && "selected" ?>>
+                                            <option value="string" <?= $specification["type"] == "string" && "selected" ?>>
                                                 String
                                             </option>
-                                            <option value="boolean" <?= $GLOBALS["POST"]["specification-type"][$key] == "boolean" && "selected" ?>>
+                                            <option value="boolean" <?= $specification["type"] == "boolean" && "selected" ?>>
                                                 Boolean
                                             </option>
-                                            <option value="number" <?= $GLOBALS["POST"]["specification-type"][$key] == "number" && "selected" ?>>
+                                            <option value="number" <?= $specification["type"] == "number" && "selected" ?>>
                                                 Number
                                             </option>
-                                            <option value="list" <?= $GLOBALS["POST"]["specification-type"][$key] == "list" && "selected" ?>>
+                                            <option value="list" <?= $specification["type"] == "list" && "selected" ?>>
                                                 List
                                             </option>
                                         </select>
                                     </td>
                                     <td>
                                         <!--suppress HtmlFormInputWithoutLabel -->
-                                        <input type="text" max="255" name="specification-notation[<?= $key ?>]"
-                                               id="specification-notation[<?= $key ?>]"
-                                               value="<?= $GLOBALS["POST"]["specification-notation"][$key] ?>">
+                                        <input type="text" max="255"
+                                               name="specification-notation[<?= $specification["id"] ?>]"
+                                               id="specification-notation[<?= $specification["id"] ?>]"
+                                               value="<?= $specification["notation"] ?>">
                                     </td>
                                     <td>
-                                        <p id="specification-notation-example[<?= $key ?>]"></p>
+                                        <p id="specification-notation-example[<?= $specification["id"] ?>]"></p>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

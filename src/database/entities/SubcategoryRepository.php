@@ -29,6 +29,28 @@
             $res->close();
         }
 
+        public static function findOne(mysqli $con, int $id): array|null {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/subcategory.findOne.sql'));
+            $query->bind_param("i", $id);
+            $query->execute();
+
+            $res = $query->get_result();
+            $row = $res->fetch_assoc();
+
+            $query->close();
+            $res->close();
+            return $row;
+        }
+
+        public static function update(mysqli $con, int $id, string $name): bool {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/subcategory.update.sql'));
+            $query->bind_param("si", $name, $id);
+            $val = $query->execute();
+            $query->close();
+
+            return $val;
+        }
+
         /**
          * @param mysqli $con
          * @param array $data

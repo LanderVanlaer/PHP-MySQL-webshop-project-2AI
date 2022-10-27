@@ -1,6 +1,6 @@
 const template = document.getElementById('specification-template') as HTMLTemplateElement;
 const tableBody = document.querySelector<HTMLTableSectionElement>('#specifications tbody');
-let currentId = 0;
+let currentId = -1;
 
 const EXAMPLE_DATA = {
   string: 'xxx',
@@ -8,21 +8,21 @@ const EXAMPLE_DATA = {
 };
 
 const newCurrentId = () => {
-  let newId = ++currentId;
-  while (document.querySelector(`[id="specification-name[${newId}]"]`)) ++newId;
+  let newId = --currentId;
+  while (document.querySelector(`[id="specification-name[${newId}]"]`)) --newId;
   currentId = newId;
   console.log(currentId);
 };
 
-const configureSpecificationNotation = (id: number,
-                                        exampleNotationPTag: HTMLParagraphElement,
-                                        typeInput: HTMLSelectElement,
-                                        notationInput: HTMLInputElement) => {
-  [notationInput, typeInput]
-    .forEach(el => el.addEventListener('input', () => {
-      const value = notationInput.value;
-      exampleNotationPTag.textContent = EXAMPLE_DATA[typeInput.value] && value.trim() ? value.replace('{}', EXAMPLE_DATA[typeInput.value]) : '';
-    }));
+const configureSpecificationNotation = (exampleNotationPTag: HTMLParagraphElement, typeInput: HTMLSelectElement, notationInput: HTMLInputElement) => {
+  const renderNotationExample = () => {
+    const value = notationInput.value;
+    exampleNotationPTag.textContent = EXAMPLE_DATA[typeInput.value] && value.trim() ? value.replace('{}', EXAMPLE_DATA[typeInput.value]) : '';
+  };
+
+  renderNotationExample();
+
+  [notationInput, typeInput].forEach(el => el.addEventListener('input', renderNotationExample));
 };
 
 const configureDeleteButton = (btn: HTMLButtonElement, id: number) => {
@@ -32,16 +32,26 @@ const configureDeleteButton = (btn: HTMLButtonElement, id: number) => {
 };
 
 // ------------------------------------
-configureSpecificationNotation(0,
-  document.getElementById('specification-notation-example[0]') as HTMLParagraphElement,
-  document.getElementById('specification-type[0]') as HTMLSelectElement,
-  document.getElementById('specification-notation[0]') as HTMLInputElement
-);
+// Config notation's
+document.querySelectorAll<HTMLSelectElement>('#specifications tbody tr td select').forEach(el => {
+  const id = Number(/^specification-type\[(-?\d+)]$/i.exec(el.id)[1]);
+
+  if (isNaN(id)) return alert('Something went wrong, please refresh your page');
+
+  configureSpecificationNotation(
+    document.getElementById(`specification-notation-example[${id}]`) as HTMLParagraphElement,
+    el,
+    document.getElementById(`specification-notation[${id}]`) as HTMLInputElement
+  );
+});
+
+// Configure Delete buttons
 document.querySelectorAll<HTMLButtonElement>('#specifications > tbody > tr > td.edit > button').forEach(btn => {
   if (btn.dataset.id && !isNaN(Number(btn.dataset.id)))
     configureDeleteButton(btn, Number(btn.dataset.id));
 });
 
+// "Add Row" button config
 const buttonAddRow = document.getElementById('add-row') as HTMLButtonElement;
 buttonAddRow.addEventListener('click', e => {
   e.preventDefault();
@@ -64,7 +74,7 @@ buttonAddRow.addEventListener('click', e => {
     'name' in element && (element.name = `${element.name}[${currentId}]`);
   });
 
-  configureSpecificationNotation(currentId, exampleNotationPTag, typeInput, notationInput);
+  configureSpecificationNotation(exampleNotationPTag, typeInput, notationInput);
   configureDeleteButton(tr.querySelector<HTMLButtonElement>('button.delete'), currentId);
 
   tableBody.appendChild(tr);
