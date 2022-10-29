@@ -29,6 +29,17 @@
             $res->close();
         }
 
+        public static function findAllAndMarkLinkedToCategory(mysqli $con, int $categoryId) {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/subcategory.findAll.category_id.sql'));
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield $row;
+
+            $query->close();
+            $res->close();
+        }
+
         public static function findOne(mysqli $con, int $id): array|null {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/subcategory.findOne.sql'));
             $query->bind_param("i", $id);

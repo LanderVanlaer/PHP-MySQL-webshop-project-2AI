@@ -1,0 +1,53 @@
+
+#subcategories-hidden {
+  display: none;
+}
+
+label[for="subcategories-search"] {
+  display: block;
+
+  img {
+    border-bottom: 1px solid black;
+    vertical-align: bottom;
+  }
+}
+
+div.split > div > *:first-child {
+  display: block;
+  margin: 50px 0 10px;
+  font-size: 26px;
+}
+
+#subcategories-search-list, #subcategories-selected {
+  list-style: none;
+  max-width: 450px;
+  height: 350px;
+  overflow-y: scroll;
+
+  li {
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+
+    button {
+      padding: 7px;
+      background-color: white;
+      font-size: 2rem;
+      width: 100%;
+      text-align: left;
+
+      border: none;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #cccccc;
+      }
+    }
+  }
+}
+
+h2 {
+  display: block;
+  margin-top: 20px;
+}
