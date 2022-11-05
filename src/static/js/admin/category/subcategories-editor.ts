@@ -50,14 +50,12 @@ const addToSelected = (id: number) => {
 };
 
 
-searchBar.addEventListener('input', () => {
+const showSubcategories = () => {
   const s = searchBar.value.trim().toLowerCase();
-
-  if (!s) return searchList.replaceChildren();
 
   const lis: HTMLLIElement[] = [];
   subcategories.forEach(sc => {
-    if (sc.name.toLowerCase().includes(s) || String(sc.id).includes(s)) {
+    if (!s || sc.name.toLowerCase().includes(s) || String(sc.id).includes(s)) {
       const li = document.createElement('li');
       const button = document.createElement('button');
 
@@ -76,4 +74,8 @@ searchBar.addEventListener('input', () => {
   });
 
   searchList.replaceChildren(...lis);
-});
+};
+
+searchBar.addEventListener('input', showSubcategories);
+
+showSubcategories();
