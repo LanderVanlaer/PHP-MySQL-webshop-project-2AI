@@ -53,12 +53,21 @@
             return $row;
         }
 
-        public static function create(mysqli $con, string $name): int {
+        public static function create(mysqli $con, string $name, array $subcategories): int {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/category.create.sql'));
             $query->bind_param("s", $name);
             $query->execute();
             $query->close();
 
-            return $con->insert_id;
+            $categoryId = $con->insert_id;
+
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/category-subcategory.create.sql'));
+            foreach ($subcategories as $subcategoryId) {
+                $query->bind_param("ii", $categoryId, $subcategoryId);
+                $query->execute();
+            }
+            $query->close();
+
+            return $categoryId;
         }
     }

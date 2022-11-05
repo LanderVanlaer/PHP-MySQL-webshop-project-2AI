@@ -34,13 +34,25 @@
 
             $categoryName = $GLOBALS["POST"]["name"];
 
+            if (!is_array($GLOBALS["POST"]["subcategories"])) {
+                $this->errors[] = 2;
+                return parent::preRender();
+            }
+
+            foreach ($GLOBALS["POST"]["subcategories"] as $subcategoryId) {
+                if (!is_numeric($subcategoryId)) {
+                    $this->errors[] = 2;
+                    return parent::preRender();
+                }
+            }
+
             //Check if not duplicate
             if (!empty(CategoryRepository::findOneByName(self::getCon(), $categoryName))) {
                 $this->errors[] = 1000;
                 return parent::preRender();
             }
 
-            $id = CategoryRepository::create(self::getCon(), $categoryName);
+            $id = CategoryRepository::create(self::getCon(), $categoryName, $GLOBALS["POST"]["subcategories"]);
 
             redirect("/admin/category/$id/edit");
         }
