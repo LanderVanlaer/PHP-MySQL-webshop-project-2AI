@@ -81,4 +81,33 @@
 
             return $categoryId;
         }
+
+        public static function addLink(mysqli $con, int $categoryId, array $subcategoryIds) {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/category-subcategory.create.sql'));
+
+            $query->bind_param("ii", $categoryId, $subCategoryId);
+            foreach ($subcategoryIds as $subCategoryId) {
+                if (!$query->execute()) {
+                    $query->close();
+                    return false;
+                }
+            }
+
+            $query->close();
+            return true;
+        }
+
+        public static function deleteLink(mysqli $con, int $categoryId, array $subCategoryIds): bool {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/category-subcategory.delete.sql'));
+
+            $query->bind_param("ii", $categoryId, $subCategoryId);
+            foreach ($subCategoryIds as $subCategoryId) {
+                if (!$query->execute()) {
+                    $query->close();
+                    return false;
+                }
+            }
+            $query->close();
+            return true;
+        }
     }

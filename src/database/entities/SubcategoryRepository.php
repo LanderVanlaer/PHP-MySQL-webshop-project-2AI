@@ -29,8 +29,21 @@
             $res->close();
         }
 
-        public static function findAllAndMarkLinkedToCategory(mysqli $con, int $categoryId) {
+        public static function findByCategory(mysqli $con, int $categoryId): Generator {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/subcategory.find.category_id.sql'));
+            $query->bind_param("i", $categoryId);
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield $row;
+
+            $query->close();
+            $res->close();
+        }
+
+        public static function findAllAndMarkLinkedToCategory(mysqli $con, int $categoryId): Generator {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/subcategory.findAll.category_id.sql'));
+            $query->bind_param("i", $categoryId);
             $query->execute();
             $res = $query->get_result();
 

@@ -64,7 +64,6 @@
                     ?>
                 </tbody>
             </table>
-            <a class="btn-blue create" href="/admin/categorysubcategory/create">Create</a>
         <?php }
 
         private function renderCategoryWithSubcategories(array $data): void {

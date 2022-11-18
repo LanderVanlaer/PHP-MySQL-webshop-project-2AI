@@ -1,4 +1,4 @@
-declare const subcategories: { id: number, name: string }[];
+declare const subcategories: { id: number, name: string, selected?: boolean }[];
 
 const searchBar = document.querySelector<HTMLInputElement>('#subcategories-search');
 const searchList = document.querySelector<HTMLUListElement>('#subcategories-search-list');
@@ -79,3 +79,7 @@ const showSubcategories = () => {
 searchBar.addEventListener('input', showSubcategories);
 
 showSubcategories();
+
+subcategories.forEach(s => {
+  if (s.selected) addToSelected(s.id);
+});

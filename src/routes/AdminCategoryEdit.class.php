@@ -7,7 +7,6 @@
     use function utils\getErrors;
     use function utils\redirect;
 
-    //TODO add edit category-subcategory
     class AdminCategoryEdit extends Route
     {
         private array $errors = [];
