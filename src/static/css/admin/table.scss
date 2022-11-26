@@ -9,16 +9,18 @@ main table {
     font-weight: bold;
   }
 
-  tr {
-    &:hover {
-      background-color: #ececec;
-    }
-
-    &:nth-child(2n) {
-      background-color: #e1e1e1;
-
+  &:not(.no-alternate-coloring) {
+    tr {
       &:hover {
-        background-color: #cccccc;
+        background-color: #ececec;
+      }
+
+      &:nth-child(2n) {
+        background-color: #e1e1e1;
+
+        &:hover {
+          background-color: #cccccc;
+        }
       }
     }
   }

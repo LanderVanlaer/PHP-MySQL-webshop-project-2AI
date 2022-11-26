@@ -51,4 +51,34 @@
 
             return $val1 && $val2;
         }
+
+        public static function specificationTypeToHtmlInput(string $type, string|null $value, string|null $name, string $list = ''): void {
+            switch ($type):
+                case "number": ?>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input type="number" value="<?= $value ?>" name="<?= $name ?>" id="<?= $name ?>" step="any">
+                    <?php break;
+                case "string": ?>
+                    <input type="text" value="<?= $value ?>" name="<?= $name ?>" id="<?= $name ?>">
+                    <?php break;
+                case "boolean": ?>
+                    <label>
+                        <input type="checkbox" <?= empty($value) ? null : "checked" ?>
+                               name="<?= $name ?>"
+                               id="<?= $name ?>">
+                        <span class="checkbox-custom"></span>
+                    </label>
+                    <?php break;
+                case "list":
+                    $listValues = explode(",", $list); ?>
+                    <select name="<?= $name ?>" id="<?= $name ?>">
+                        <option selected label=" "></option>
+                        <?php foreach ($listValues as $listValue): ?>
+                            <option value="<?= $listValue ?>" <?= $value == $listValue ? "selected" : null ?>><?= $listValue ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php break;
+                default:
+            endswitch;
+        }
     }

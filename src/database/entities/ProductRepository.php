@@ -26,4 +26,17 @@
             $query->close();
             $res->close();
         }
+
+        public static function findOneSimple(mysqli $con, int $id): array|null {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.findOneSimple.id.sql'));
+            $query->bind_param("i", $id);
+            $query->execute();
+
+            $res = $query->get_result();
+            $row = $res->fetch_assoc();
+
+            $query->close();
+            $res->close();
+            return $row;
+        }
     }

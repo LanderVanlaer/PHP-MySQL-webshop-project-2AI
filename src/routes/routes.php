@@ -26,5 +26,6 @@
             new AdminProductCreate(),
             new AdminCategorySubcategoryEdit(),
             new AdminProduct(),
+            new AdminPropertiesEdit(),
         );
     }
