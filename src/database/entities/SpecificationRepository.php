@@ -44,8 +44,8 @@
             $query1->bind_param("i", $id);
             $query2->bind_param("i", $id);
 
-            $val1 = $query1->execute();
             $val2 = $query2->execute();
+            $val1 = $query1->execute();
             $query1->close();
             $query2->close();
 
