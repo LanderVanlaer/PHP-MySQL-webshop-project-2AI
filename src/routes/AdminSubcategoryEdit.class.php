@@ -200,16 +200,16 @@
                                             <option value="" <?= !in_array($specification["type"], ["string", "boolean", "number", "list"]) ? "selected" : "" ?>
                                                     disabled>Choose an option
                                             </option>
-                                            <option value="string" <?= $specification["type"] == "string" && "selected" ?>>
+                                            <option value="string" <?= $specification["type"] == "string" ? "selected" : null ?>>
                                                 String
                                             </option>
-                                            <option value="boolean" <?= $specification["type"] == "boolean" && "selected" ?>>
+                                            <option value="boolean" <?= $specification["type"] == "boolean" ? "selected" : null ?>>
                                                 Boolean
                                             </option>
-                                            <option value="number" <?= $specification["type"] == "number" && "selected" ?>>
+                                            <option value="number" <?= $specification["type"] == "number" ? "selected" : null ?>>
                                                 Number
                                             </option>
-                                            <option value="list" <?= $specification["type"] == "list" && "selected" ?>>
+                                            <option value="list" <?= $specification["type"] == "list" ? "selected" : null ?>>
                                                 List
                                             </option>
                                         </select>
