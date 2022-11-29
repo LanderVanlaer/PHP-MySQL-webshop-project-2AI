@@ -11,7 +11,7 @@
      * @see https://www.php.net/manual/en/mysqlinfo.api.choosing.php
      */
     function createConnection(): mysqli {
-        $con = new mysqli("localhost:3306", "root", "", "webshop");
+        $con = new mysqli("localhost:3306", "application", "password", "webshop");
         if ($con->connect_errno)
             die("Error with connection to database {$con->connect_error}");
 
