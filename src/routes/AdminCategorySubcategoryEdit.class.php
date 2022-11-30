@@ -42,12 +42,7 @@
         }
 
         private function postPreRender(int $id): bool {
-            if (empty($GLOBALS["POST"]["subcategories"])) {
-                $this->errors[] = 0;
-                return false;
-            }
-
-            $subCategoryIds = $GLOBALS["POST"]["subcategories"];
+            $subCategoryIds = empty($GLOBALS["POST"]["subcategories"]) ? [] : $GLOBALS["POST"]["subcategories"];
 
             if (!is_array($subCategoryIds)) {
                 $this->errors[] = 2;
