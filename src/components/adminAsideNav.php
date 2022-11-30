@@ -5,17 +5,11 @@
                 $tables = [
                         "Brand",
                         "Product",
-                        "ProductImage",
-                        "Property",
                         "Category",
                         "CategorySubcategory",
                         "Subcategory",
-                        "Specification",
                         "Customer",
-                        "Like",
-                        "Order",
-                        "OrderProduct",
-                        "ShoppingcartProducts",
+                        "Employee",
                 ];
 
                 foreach ($tables as $table) { ?>
