@@ -93,23 +93,17 @@
 
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/form.css">
-            <style>
-                .links {
-                    font-size: 2rem;
-                }
-
-                .links ul {
-                    list-style: none;
-                    display: flex;
-                    gap: 1rem;
-                }
-            </style>
         <?php }
 
         public function render(): void { ?>
             <h1>Edit Product (<?= $this->product["id"] ?>)</h1>
             <nav class="links">
                 <ul>
+                    <li class="active">
+                        <a class="btn-blue" href="/admin/product/<?= $this->product["id"] ?>/edit">
+                            Product
+                        </a>
+                    </li>
                     <li>
                         <a class="btn-blue" href="/admin/properties/<?= $this->product["id"] ?>/edit">
                             Properties

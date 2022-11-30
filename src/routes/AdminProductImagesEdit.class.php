@@ -128,6 +128,25 @@
                     (<?= $this->product["id"] ?>)
                 </a>
             </h1>
+            <nav class="links">
+                <ul>
+                    <li>
+                        <a class="btn-blue" href="/admin/product/<?= $this->product["id"] ?>/edit">
+                            Product
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn-blue" href="/admin/properties/<?= $this->product["id"] ?>/edit">
+                            Properties
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a class="btn-blue" href="/admin/productimage/<?= $this->product["id"] ?>/edit">
+                            Product Images
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <form action="#" method="POST">
                 <input type="hidden" name="type" value="reorder">
                 <?php if (count($this->errors) || !empty($this->mysqlError)) { ?>

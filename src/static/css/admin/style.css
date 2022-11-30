@@ -60,4 +60,16 @@ main form table tr td button.btn-blue {
   font-size: 3rem;
 }
 
+.links ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+.links ul li {
+  font-size: 2rem;
+}
+.links ul li.active a {
+  background-color: #0b99bd;
+}
+
 /*# sourceMappingURL=style.css.map */

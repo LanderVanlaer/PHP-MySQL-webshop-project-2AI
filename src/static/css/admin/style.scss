@@ -74,3 +74,21 @@ main form {
     }
   }
 }
+
+.links {
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+
+    li {
+      font-size: 2rem;
+
+      &.active {
+        a {
+          background-color: #0b99bd;
+        }
+      }
+    }
+  }
+}
