@@ -7,9 +7,9 @@
 
     class ProductRepository
     {
-        public static function create(mysqli $con, string $name, string $description, int $brandId, int $categoryId): int {
+        public static function create(mysqli $con, string $name, string $description, bool $public, int $brandId, int $categoryId): int {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.create.sql'));
-            $query->bind_param("ssii", $name, $description, $brandId, $categoryId);
+            $query->bind_param("ssiii", $name, $description, $public, $brandId, $categoryId);
             $query->execute();
             $query->close();
 

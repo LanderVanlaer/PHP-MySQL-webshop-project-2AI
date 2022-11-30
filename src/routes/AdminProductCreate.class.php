@@ -38,10 +38,12 @@
                 return parent::preRender();
             }
 
+            /** @noinspection DuplicatedCode */
             $name = $GLOBALS["POST"]["name"];
             $brandId = $GLOBALS["POST"]["brand"];
             $description = $GLOBALS["POST"]["description"];
             $categoryId = $GLOBALS["POST"]["category"];
+            $public = !empty($GLOBALS["POST"]["public"]);
 
             if (!is_numeric($brandId) || !is_numeric($categoryId)) {
                 $this->errors[] = 2;
@@ -56,7 +58,7 @@
                 return parent::preRender();
             }
 
-            $id = ProductRepository::create(self::getCon(), $name, $description, $brandId, $categoryId);
+            $id = ProductRepository::create(self::getCon(), $name, $description, $public, $brandId, $categoryId);
 
             redirect("/admin/product/$id/edit");
         }
@@ -94,6 +96,11 @@
                     <span class="required">Description:</span>
                     <textarea name="description" id="description" cols="60" rows="10"
                               placeholder="Description..." maxlength="1024" required></textarea>
+                </label>
+                <label>
+                    Public:
+                    <input type="checkbox" name="public">
+                    <span class="checkbox-custom"></span>
                 </label>
                 <fieldset>
                     <legend>Category</legend>

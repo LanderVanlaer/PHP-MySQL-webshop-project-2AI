@@ -58,6 +58,7 @@
             $brandId = $GLOBALS["POST"]["brand"];
             $description = $GLOBALS["POST"]["description"];
             $categoryId = $GLOBALS["POST"]["category"];
+            $public = !empty($GLOBALS["POST"]["public"]);
 
             if (!is_numeric($brandId) || !is_numeric($categoryId)) {
                 $this->errors[] = 2;
@@ -73,7 +74,7 @@
                 return parent::preRender();
             }
 
-            if (!ProductRepository::update(self::getCon(), $id, $name, $brandId, $description, $categoryId, 1)) {
+            if (!ProductRepository::update(self::getCon(), $id, $name, $brandId, $description, $categoryId, $public)) {
                 $this->mysqlError = mysqli_error(self::getCon());
                 return false;
             }
@@ -135,6 +136,12 @@
                     <textarea name="description" id="description" cols="60" rows="10"
                               placeholder="Description..." maxlength="1024"
                               required><?= $this->product["description"] ?></textarea>
+                </label>
+                <label>
+                    Public:
+                    <input type="checkbox" <?= empty($this->product["public"]) ? null : "checked" ?>
+                           name="public">
+                    <span class="checkbox-custom"></span>
                 </label>
                 <fieldset>
                     <legend>Category</legend>
