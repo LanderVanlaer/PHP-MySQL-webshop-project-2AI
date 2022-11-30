@@ -93,10 +93,35 @@
 
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/form.css">
+            <style>
+                .links {
+                    font-size: 2rem;
+                }
+
+                .links ul {
+                    list-style: none;
+                    display: flex;
+                    gap: 1rem;
+                }
+            </style>
         <?php }
 
         public function render(): void { ?>
             <h1>Edit Product (<?= $this->product["id"] ?>)</h1>
+            <nav class="links">
+                <ul>
+                    <li>
+                        <a class="btn-blue" href="/admin/properties/<?= $this->product["id"] ?>/edit">
+                            Properties
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn-blue" href="/admin/productimage/<?= $this->product["id"] ?>/edit">
+                            Product Images
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <form action="#" method="POST">
                 <?php if (count($this->errors) || !empty($this->mysqlError)) { ?>
                     <div class="form-error">
