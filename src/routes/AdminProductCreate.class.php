@@ -63,9 +63,6 @@
 
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/form.css">
-            <style>
-
-            </style>
         <?php }
 
         public function render(): void { ?>
