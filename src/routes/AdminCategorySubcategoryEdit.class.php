@@ -105,6 +105,20 @@
             <h1>Edit Category "<a
                         href="/admin/category/<?= $this->category["id"] ?>/edit"><?= $this->category["name"] ?></a>"
                 (<?= $this->category["id"] ?>)</h1>
+            <nav class="links">
+                <ul>
+                    <li>
+                        <a class="btn-blue" href="/admin/category/<?= $this->category["id"] ?>/edit">
+                            Category
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a class="btn-blue" href="/admin/categorysubcategory/<?= $this->category["id"] ?>/edit">
+                            Category Subcategory
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <form action="#" method="POST" enctype="multipart/form-data">
                 <?php if (count($this->errors) || !empty($this->mysqlError)) { ?>
                     <div class="form-error">
