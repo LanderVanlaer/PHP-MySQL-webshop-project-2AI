@@ -39,4 +39,34 @@
             $res->close();
             return $row;
         }
+
+        public static function findOne(mysqli $con, int $id): array|null {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.findOne.id.sql'));
+            $query->bind_param("i", $id);
+            $query->execute();
+
+            $res = $query->get_result();
+            $row = $res->fetch_assoc();
+
+            $query->close();
+            $res->close();
+
+            return $row;
+        }
+
+        public static function update(mysqli $con, int $id, string $name, string $brandId, string $description, string $categoryId, bool $public): bool {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.update.sql'));
+            $query->bind_param("ssiiii",
+                $name,
+                $description,
+                $public,
+                $brandId,
+                $categoryId,
+                $id,
+            );
+            $val = $query->execute();
+            $query->close();
+
+            return $val;
+        }
     }

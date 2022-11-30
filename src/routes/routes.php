@@ -28,5 +28,6 @@
             new AdminProduct(),
             new AdminPropertiesEdit(),
             new AdminProductImagesEdit(),
+            new AdminProductEdit(),
         );
     }
