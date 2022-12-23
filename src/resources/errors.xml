@@ -3,6 +3,7 @@
 <!-- NEVER USE NEGATIVE IDs, they are reserved for custom use -->
 <!-- > 1000 => admin errors -->
 <!-- > 1500 => file errors -->
+<!-- > 1600 => password errors -->
 <Errors>
   <error id="0">Gelieve alle velden in te vullen</error>
   <error id="1">Gebruikersnaam en wachtwoord combinatie bestaat niet</error>
@@ -12,4 +13,8 @@
   <error id="1000">Er is reeds een duplicaat</error>
   <error id="1500">Het gegeven bestand is geen (ondersteunde) afbeelding</error>
   <error id="1501">Het gegeven bestand is te groot</error>
+  <error id="1601">Wachtwoord moet uit minstens 8 karakters bestaan en maximaal uit 32</error>
+  <error id="1602">Wachtwoord moet bestaan uit minstens 1 kleine letter</error>
+  <error id="1603">Wachtwoord moet bestaan uit minstens 1 hoofdletter</error>
+  <error id="1604">Wachtwoord moet bestaan uit minstens 1 cijfer</error>
 </Errors>

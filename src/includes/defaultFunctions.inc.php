@@ -138,3 +138,22 @@
         move_uploaded_file($file['tmp_name'], $fileDestination);
         return $newFileName;
     }
+
+    /**
+     * Checks whether the given password can be used. If not, gets the errors as error-id {@link array}
+     *
+     * @param $p string The password to be tested
+     * @return int[] Returns an array of all errors, if there are no errors an empty array;
+     */
+    function passwordPossible(string $p): array {
+        $arr = array();
+        if (!preg_match("/.{8,32}/", $p))
+            $arr[] = 1601;
+        if (!preg_match("/[a-z]/", $p))
+            $arr[] = 1602;
+        if (!preg_match("/[A-Z]/", $p))
+            $arr[] = 1603;
+        if (!preg_match("/\d/", $p))
+            $arr[] = 1604;
+        return $arr;
+    }

@@ -29,4 +29,13 @@
             $query->close();
             $res->close();
         }
+
+        public static function create(mysqli $con, string $firstname, string $lastname, string $password, string $username): int {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/employee.create.sql'));
+            $query->bind_param("ssss", $firstname, $lastname, $password, $username);
+            $query->execute();
+            $query->close();
+
+            return $con->insert_id;
+        }
     }
