@@ -7,9 +7,22 @@
 
     class EmployeeRepository
     {
-        public static function findOne(mysqli $con, string $username): array|null {
+        public static function findOneByUsername(mysqli $con, string $username): array|null {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/employee.findOne.username.sql'));
             $query->bind_param('s', $username);
+            $query->execute();
+            $res = $query->get_result();
+            $row = $res->fetch_assoc();
+            $query->close();
+            $res->close();
+
+            return $row;
+        }
+
+
+        public static function findOne(mysqli $con, int $id): array|null {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/employee.findOne.id.sql'));
+            $query->bind_param('i', $id);
             $query->execute();
             $res = $query->get_result();
             $row = $res->fetch_assoc();
@@ -37,5 +50,22 @@
             $query->close();
 
             return $con->insert_id;
+        }
+
+        public static function update(mysqli $con, int $id, mixed $firstname, mixed $lastname, string|null $passwordHash, mixed $username): bool {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/employee.update.sql'));
+            $query->bind_param("sssi", $firstname, $lastname, $username, $id);
+            $val = $query->execute();
+            $query->close();
+
+            if (!$val || $passwordHash == null)
+                return $val;
+
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/employee.update.password.sql'));
+            $query->bind_param("si", $passwordHash, $id);
+            $val = $query->execute();
+            $query->close();
+
+            return $val;
         }
     }

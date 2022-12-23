@@ -9,56 +9,79 @@
     use function utils\passwordPossible;
     use function utils\redirect;
 
-    class AdminEmployeeCreate extends Route
+    class AdminEmployeeEdit extends Route
     {
         private array $errors = [];
+        private array $employee = [];
+        private string $mysqlError;
 
         public function __construct() {
             parent::__construct(false, true, true);
         }
 
         public function matchesPath(string $path): bool {
-            return $path === "/admin/employee/create";
+            return preg_match("/^\/admin\/employee\/\d+\/edit$/", $path);
         }
 
         public function getDocumentTitle(): string {
-            return "Employee Create";
+            return "Employee {$this->employee["name"]} edit";
         }
 
         public function preRender(): bool {
-            if ($_SERVER["REQUEST_METHOD"] !== "POST") return parent::preRender();
+            preg_match("/^\/admin\/employee\/(\d+)\/edit/", $_SERVER["REDIRECT_URL"], $matches);
 
+            if (!is_numeric($matches[1]))
+                return false;
+
+            $id = intval($matches[1]);
+
+            if ($_SERVER["REQUEST_METHOD"] !== "GET" && $this->postPreRender($id)) {
+                redirect("/admin/employee");
+            }
+
+            return $this->getPreRender($id);
+        }
+
+        private function postPreRender(int $id): bool {
             if (isOneEmpty(
                     $GLOBALS["POST"]["firstname"],
                     $GLOBALS["POST"]["lastname"],
-                    $GLOBALS["POST"]["username"],
-                    $GLOBALS["POST"]["password"])) {
+                    $GLOBALS["POST"]["username"])) {
                 $this->errors[] = 0;
-                return parent::preRender();
+                return false;
             }
 
             $firstname = $GLOBALS["POST"]["firstname"];
             $lastname = $GLOBALS["POST"]["lastname"];
             $username = $GLOBALS["POST"]["username"];
-            $password = $GLOBALS["POST"]["password"];
+            $password = empty($GLOBALS["POST"]["password"]) ? null : $GLOBALS["POST"]["password"];
 
-            if (($passwordErrors = passwordPossible($password)) && count($passwordErrors) > 0) {
+            if ($password != null && ($passwordErrors = passwordPossible($password)) && count($passwordErrors) > 0) {
                 $this->errors = array_merge($this->errors, $passwordErrors);
-                return parent::preRender();
+                return false;
             }
 
             //Check if not duplicate
             $duplicatedEmployee = EmployeeRepository::findOneByUsername(self::getCon(), $username);
-            if (!empty($duplicatedEmployee)) {
+            if (!empty($duplicatedEmployee) && $duplicatedEmployee["id"] != $id) {
                 $this->errors[] = 1000;
-                return parent::preRender();
+                return false;
             }
 
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            if (!EmployeeRepository::update(self::getCon(), $id, $firstname, $lastname, empty($password) ? null : password_hash($password, PASSWORD_DEFAULT), $username)) {
+                $this->mysqlError = mysqli_error(self::getCon());
+                return false;
+            }
 
-            $id = EmployeeRepository::create(self::getCon(), $firstname, $lastname, $passwordHash, $username);
+            return true;
+        }
 
-            redirect("/admin/employee/$id/edit");
+        private function getPreRender(int $id): bool {
+            $this->employee = EmployeeRepository::findOne(self::getCon(), $id);
+
+            if ($this->employee) return parent::preRender();
+
+            return false;
         }
 
         public function renderHead(): void { ?>
@@ -68,11 +91,15 @@
         public function render(): void { ?>
             <h1>Create new Employee</h1>
             <form action="#" method="POST" enctype="multipart/form-data">
-                <?php if (count($this->errors)) { ?>
+                <?php if (count($this->errors) || !empty($this->mysqlError)) { ?>
                     <div class="form-error">
                         <ul>
                             <?php foreach (getErrors($this->errors) as $error) { ?>
                                 <li><?= $error ?></li>
+                            <?php } ?>
+
+                            <?php if (!empty($this->mysqlError)) { ?>
+                                <li><?= $this->mysqlError ?></li>
                             <?php } ?>
                         </ul>
                     </div>
@@ -81,22 +108,22 @@
                     <legend>Name</legend>
                     <label>
                         <span class="required">firstname:</span>
-                        <input type="text" name="firstname" required>
+                        <input type="text" name="firstname" required value="<?= $this->employee["firstname"] ?>">
                     </label>
                     <label>
                         <span class="required">lastname:</span>
-                        <input type="text" name="lastname" required>
+                        <input type="text" name="lastname" required value="<?= $this->employee["lastname"] ?>">
                     </label>
                 </fieldset>
                 <fieldset>
                     <legend>credentials</legend>
                     <label>
                         <span class="required">username:</span>
-                        <input type="text" name="username" required>
+                        <input type="text" name="username" required value="<?= $this->employee["username"] ?>">
                     </label>
                     <label>
-                        <span class="required">password:</span>
-                        <input type="password" name="password" required>
+                        <span>password:</span>
+                        <input type="password" name="password">
                     </label>
                 </fieldset>
                 <button type="submit" class="btn-blue">Submit</button>

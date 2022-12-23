@@ -31,5 +31,6 @@
             new AdminProductEdit(),
             new AdminEmployee(),
             new AdminEmployeeCreate(),
+            new AdminEmployeeEdit(),
         );
     }

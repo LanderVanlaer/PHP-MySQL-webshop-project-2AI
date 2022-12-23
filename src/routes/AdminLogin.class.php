@@ -39,7 +39,7 @@
                     return parent::preRender();
                 }
 
-                $admin = EmployeeRepository::findOne(self::getCon(), $GLOBALS["POST"]["username"]);
+                $admin = EmployeeRepository::findOneByUsername(self::getCon(), $GLOBALS["POST"]["username"]);
 
                 if (empty($admin) || !password_verify($GLOBALS["POST"]["password"], $admin["password"])) {
                     $this->errors[] = 1;
