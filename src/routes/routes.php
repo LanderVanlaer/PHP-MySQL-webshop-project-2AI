@@ -29,5 +29,6 @@
             new AdminPropertiesEdit(),
             new AdminProductImagesEdit(),
             new AdminProductEdit(),
+            new AdminEmployee(),
         );
     }
