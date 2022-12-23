@@ -11,7 +11,7 @@ FROM product pro
          INNER JOIN categorysubcategory csc on cat.id = csc.category_id
          INNER JOIN subcategory sub on csc.subcategory_id = sub.id
          INNER JOIN specification sp on sub.id = sp.subcategory_id
-         LEFT JOIN property prop on sp.id = prop.specification_id
+         LEFT JOIN property prop on sp.id = prop.specification_id AND pro.id = prop.product_id
 WHERE pro.id = ?
   AND (prop.product_id = ? OR prop.product_id IS NULL)
 ORDER BY sub.id, sp.id;
