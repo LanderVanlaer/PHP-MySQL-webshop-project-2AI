@@ -1,2 +1,2 @@
-INSERT INTO product(name, description, public, brand_id, category_id)
-VALUES (?, ?, ?, ?, ?);
+INSERT INTO product(name, description, price, public, brand_id, category_id)
+VALUES (?, ?, ?, ?, ?, ?);

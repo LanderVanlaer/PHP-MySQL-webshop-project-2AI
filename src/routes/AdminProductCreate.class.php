@@ -33,7 +33,8 @@
                     $GLOBALS["POST"]["name"],
                     $GLOBALS["POST"]["brand"],
                     $GLOBALS["POST"]["description"],
-                    $GLOBALS["POST"]["category"])) {
+                    $GLOBALS["POST"]["category"],
+                    $GLOBALS["POST"]["price"])) {
                 $this->errors[] = 0;
                 return parent::preRender();
             }
@@ -44,21 +45,23 @@
             $description = $GLOBALS["POST"]["description"];
             $categoryId = $GLOBALS["POST"]["category"];
             $public = !empty($GLOBALS["POST"]["public"]);
+            $price = $GLOBALS["POST"]["price"];
 
-            if (!is_numeric($brandId) || !is_numeric($categoryId)) {
+            if (!is_numeric($brandId) || !is_numeric($categoryId) || !is_numeric($price)) {
                 $this->errors[] = 2;
                 return parent::preRender();
             }
 
             $brandId = intval($brandId);
             $categoryId = intval($categoryId);
+            $price = floatval($price);
 
             if (!BrandRepository::findOne(self::getCon(), $brandId) || !CategoryRepository::findOne(self::getCon(), $categoryId)) {
                 $this->errors[] = 3;
                 return parent::preRender();
             }
 
-            $id = ProductRepository::create(self::getCon(), $name, $description, $public, $brandId, $categoryId);
+            $id = ProductRepository::create(self::getCon(), $name, $description, $price, $public, $brandId, $categoryId);
 
             redirect("/admin/product/$id/edit");
         }
@@ -91,6 +94,16 @@
                             <option value="<?= $brand["id"] ?>"><?= $brand["name"] ?></option>
                         <?php endforeach; ?>
                     </select>
+                </label>
+                <label>
+                    <span class="required">Price:</span>
+                    <input type="number"
+                           name="price"
+                           min="0.00"
+                           max="10000.00"
+                           step="0.01"
+                           value="0.00"
+                    />
                 </label>
                 <label class="vertical">
                     <span class="required">Description:</span>

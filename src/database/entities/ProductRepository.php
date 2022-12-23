@@ -7,9 +7,9 @@
 
     class ProductRepository
     {
-        public static function create(mysqli $con, string $name, string $description, bool $public, int $brandId, int $categoryId): int {
+        public static function create(mysqli $con, string $name, string $description, float $price, bool $public, int $brandId, int $categoryId): int {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.create.sql'));
-            $query->bind_param("ssiii", $name, $description, $public, $brandId, $categoryId);
+            $query->bind_param("ssdiii", $name, $description, $price, $public, $brandId, $categoryId);
             $query->execute();
             $query->close();
 
@@ -54,11 +54,12 @@
             return $row;
         }
 
-        public static function update(mysqli $con, int $id, string $name, string $brandId, string $description, string $categoryId, bool $public): bool {
+        public static function update(mysqli $con, int $id, string $name, string $brandId, string $description, string $categoryId, float $price, bool $public): bool {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.update.sql'));
-            $query->bind_param("ssiiii",
+            $query->bind_param("ssdiiii",
                 $name,
                 $description,
+                $price,
                 $public,
                 $brandId,
                 $categoryId,

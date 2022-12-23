@@ -3,6 +3,7 @@ SELECT id,
        description,
        public,
        category_id,
-       brand_id
+       brand_id,
+       price
 FROM product p
 WHERE p.id = ?;
