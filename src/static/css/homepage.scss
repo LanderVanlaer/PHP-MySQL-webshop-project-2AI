@@ -1,0 +1,8 @@
+.categories {
+  list-style: none;
+
+  > li {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+}
