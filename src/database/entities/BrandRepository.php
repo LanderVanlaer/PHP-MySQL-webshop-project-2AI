@@ -25,6 +25,19 @@
             $res->close();
         }
 
+
+        public static function findAllByCategory(mysqli $con, int $categoryId): Generator {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/brand.findAll.category-id.sql'));
+            $query->bind_param("i", $categoryId);
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield $row;
+
+            $query->close();
+            $res->close();
+        }
+
         public static function findAll(mysqli $con): Generator {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/brand.findAll.sql'));
             $query->execute();

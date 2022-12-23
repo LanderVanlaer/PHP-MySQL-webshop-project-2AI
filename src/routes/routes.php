@@ -32,5 +32,6 @@
             new AdminEmployee(),
             new AdminEmployeeCreate(),
             new AdminEmployeeEdit(),
+            new ProductsCategory(),
         );
     }

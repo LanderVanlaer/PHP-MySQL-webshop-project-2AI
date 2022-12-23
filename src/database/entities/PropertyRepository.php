@@ -37,6 +37,18 @@
             $res->close();
         }
 
+        public static function findAllBySpecificationAndCategory(mysqli $con, int $specificationId, int $categoryId): Generator {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/property.findAll.specification_id,category_id.sql'));
+            $query->bind_param("ii", $specificationId, $categoryId);
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield $row;
+
+            $query->close();
+            $res->close();
+        }
+
         public static function delete(mysqli $con, int $id): bool {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/property.delete.sql'));
 
