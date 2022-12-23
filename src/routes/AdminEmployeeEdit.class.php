@@ -77,11 +77,12 @@
         }
 
         private function getPreRender(int $id): bool {
-            $this->employee = EmployeeRepository::findOne(self::getCon(), $id);
+            $employee = EmployeeRepository::findOne(self::getCon(), $id);
 
-            if ($this->employee) return parent::preRender();
+            if (empty($employee)) return false;
+            $this->employee = $employee;
 
-            return false;
+            return parent::preRender();
         }
 
         public function renderHead(): void { ?>
@@ -89,7 +90,7 @@
         <?php }
 
         public function render(): void { ?>
-            <h1>Create new Employee</h1>
+            <h1>Edit Employee (<?= $this->employee["id"] ?>)</h1>
             <form action="#" method="POST" enctype="multipart/form-data">
                 <?php if (count($this->errors) || !empty($this->mysqlError)) { ?>
                     <div class="form-error">
