@@ -4,6 +4,7 @@
 
     use database\entities\BrandRepository;
     use database\entities\CategoryRepository;
+    use database\entities\ProductRepository;
     use database\entities\PropertyRepository;
     use database\entities\SpecificationRepository;
     use database\entities\SubcategoryRepository;
@@ -61,7 +62,7 @@
                                             <li>
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="<?= $brand["name"] ?>"
+                                                           name="brand"
                                                            value="<?= $brand["id"] ?>">
                                                     <span class="checkbox-custom"></span>
                                                     <?= $brand["name"] ?>
@@ -90,9 +91,29 @@
                     </form>
                 </section>
                 <section id="products">
-                    <ul class="categories">
-                        <!--                        --><?php //foreach (CategoryRepository::findAll(self::getCon()) as $category) { ?>
-                        <!--                        --><?php //} ?>
+                    <ul>
+                        <?php foreach (ProductRepository::findAllByCategoryAndThumbnail(self::getCon(), $this->category["id"]) as $product):
+                            $link = "/product/{$product["id"]}"; ?>
+                            <li data-brand-id="<?= $product["brand_id"] ?>"
+                                data-specifications="<?= $this->specificationsToJsonConverter($product["id"]) ?>">
+                                <a class="thumbnail-wrapper" href="<?= $link ?>">
+                                    <?php if (empty($product["image_path"])): ?>
+                                        <div class="no-thumbnail">No image</div>
+                                    <?php else: ?>
+                                        <img src="/images/product/<?= $product["image_path"] ?>"
+                                             alt="<?= $product["name"] ?> thumbnail">
+                                    <?php endif; ?>
+                                    <div class="product-brand">
+                                        <img src="/images/brand/<?= $product["brand_path"] ?>"
+                                             alt="<?= $product["brand_name"] ?>">
+                                    </div>
+                                </a>
+                                <a href="<?= $link ?>" class="product-name-description-wrapper">
+                                    <p class="product-name"><?= $product["name"] ?></p>
+                                    <div class="product-description"><?= $product["description"] ?>...</div>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </section>
             </div>
@@ -172,6 +193,15 @@
             }
 
             return [$min, $max];
+        }
+
+        private function specificationsToJsonConverter(int $productId): string {
+            $specificationsObject = [];
+
+            foreach (PropertyRepository::findAllByProduct(self::getCon(), $productId) as $specification)
+                $specificationsObject[$specification["specification_id"]] = $specification["property_value"];
+
+            return htmlspecialchars(json_encode($specificationsObject), ENT_QUOTES);
         }
 
         public function getDocumentTitle(): string {
