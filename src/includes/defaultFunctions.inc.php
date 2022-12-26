@@ -46,11 +46,11 @@
      */
     function validateString(string $var): string {
         return str_replace(
-            "/\>/", "&gt;",
+            ">", "&gt;",
             str_replace(
-                "/\</", "&lt;",
-                str_replace(
-                    "/\"\'/", "",
+                "<", "&lt;",
+                preg_replace(
+                    "/[\"']/", "",
                     trim($var))));
     }
 
@@ -63,6 +63,21 @@
         }
 
         return $array;
+    }
+
+    /**
+     * {@link urlencode()} + removes all `/` and `\`
+     *
+     * Use this for every dynamic url with a string,
+     * XAMPP has a bug that does not support `/` and `\` encoded in the url
+     *
+     * @param string $s
+     * @return string the safe-to-use url
+     * @see urlencode()
+     * @see preg_replace()
+     */
+    function validateUrlValue(string $s): string {
+        return urlencode(preg_replace("#[/\\\\]#", "", $s));
     }
 
     /**

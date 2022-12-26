@@ -10,6 +10,7 @@
     use database\entities\SubcategoryRepository;
     use Route;
     use function utils\redirect;
+    use function utils\validateUrlValue;
 
     class ProductsCategory extends Route
     {
@@ -40,8 +41,8 @@
             $category = CategoryRepository::findOne(self::getCon(), $id);
             if (empty($category)) return false;
 
-            if (empty($matches[2]) || urlencode($category["name"]) != $matches[2])
-                redirect("/products/$id/" . urlencode($category["name"]));
+            if (empty($matches[2]) || validateUrlValue($category["name"]) != urlencode(urldecode($matches[2])))
+                redirect("/products/$id/" . validateUrlValue($category["name"]));
 
             $this->category = $category;
 
