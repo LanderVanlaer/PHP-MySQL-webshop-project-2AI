@@ -193,12 +193,21 @@ const filter = () => {
   const params: { [key: number]: string[] } = {};
 
   for (const param of urlSearchParams)
-    params[Number(param[0])] = decodeURIComponent(param[1]).split('#').map(v => decodeURIComponent(v));
+    params[Number(param[0]) || param[0]] = decodeURIComponent(param[1]).split('#').map(v => decodeURIComponent(v));
 
   filters.forEach(f => {
     if (params[f.specificationId])
       f.applyParam(params[f.specificationId]);
   });
+
+  if (params['brand']) {
+    brandSpecification.forEach(brandInput => {
+      if (params['brand'].some(v => v === brandInput.value)) {
+        brandInput.checked = true;
+        activeBrandFilters[Number(brandInput.value)] = true;
+      }
+    });
+  }
 
   filter();
 }
