@@ -113,6 +113,14 @@
                                              alt="<?= $product["brand_name"] ?>">
                                     </div>
                                 </a>
+                                <div class="price-wrapper">
+                                    <span class="price-with-sign">
+                                        &euro;
+                                        <span class="price">
+                                            <?= $product["price"] ?>
+                                        </span>
+                                    </span>
+                                </div>
                                 <a href="<?= $link ?>" class="product-name-description-wrapper">
                                     <p class="product-name"><?= $product["name"] ?></p>
                                     <div class="product-description"><?= $product["description"] ?>...</div>
