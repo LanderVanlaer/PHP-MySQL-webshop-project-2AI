@@ -83,6 +83,20 @@
                         </div>
                     </div>
                     <div id="price-wrapper">
+                        <div>
+                            <div id="price-with-sign">
+                                <span id="sign">&euro;</span>
+                                <span id="price"><?= $this->product["price"] ?></span>
+
+                                <button id="like" class="btn-blue">
+                                    <img src="/static/images/Icon_love_outline.svg" alt="">
+                                    <!-- <img src="/static/images/Icon_love_solid.svg" alt=""> -->
+                                </button>
+                            </div>
+                            <button id="add" class="btn-blue">
+                                <img src="/static/images/Icon_basket-white.svg" alt="">
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>

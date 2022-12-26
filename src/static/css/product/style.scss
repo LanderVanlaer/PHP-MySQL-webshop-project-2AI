@@ -31,7 +31,6 @@
 
     #images-wrapper {
       width: $images-wrapper-width;
-      border: 1px solid #aaa;
       border-radius: 5rem;
 
       #big-image, #images {
@@ -40,7 +39,6 @@
 
       #big-image {
         height: 34rem;
-        border-bottom: 1px solid #aaa;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -96,6 +94,33 @@
 
     #price-wrapper {
       width: 100% - $images-wrapper-width;
+      text-align: right;
+      font-size: 4rem;
+      padding: 10rem;
+
+      #price-with-sign {
+        margin-bottom: 2rem;
+
+        #sign {
+          font-weight: bold;
+        }
+
+        #price {
+          font-weight: normal;
+        }
+
+        #like {
+          $size: 6rem;
+          width: $size;
+          height: $size;
+          margin-left: 2rem;
+        }
+      }
+
+      #add {
+        font-size: 3.5rem;
+        width: 50%;
+      }
     }
   }
 }
