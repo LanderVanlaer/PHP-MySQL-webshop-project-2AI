@@ -4,6 +4,7 @@
 
     use Generator;
     use mysqli;
+    use function utils\validateStringArray;
 
     class ProductImagesRepository
     {
@@ -13,7 +14,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -56,7 +57,7 @@
             $query->execute();
             $query->close();
 
-            return $image;
+            return validateStringArray($image);
         }
 
         public static function findOne(mysqli $con, int $id): array|null {
@@ -70,6 +71,6 @@
             $query->close();
             $res->close();
 
-            return $image;
+            return validateStringArray($image);
         }
     }

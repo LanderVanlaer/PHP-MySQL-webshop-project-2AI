@@ -38,15 +38,20 @@
 
     /**
      * This function makes a string 'safe to use'
+     * Removes `<`, `>`, `'` and `"`
      *
      * @param $var string The string that needs to be modified
      * @return string The new 'safe' value
-     * @see stripslashes()
-     * @see htmlspecialchars()
      * @see trim()
      */
     function validateString(string $var): string {
-        return htmlspecialchars(trim(stripslashes($var)));
+        return str_replace(
+            "/\>/", "&gt;",
+            str_replace(
+                "/\</", "&lt;",
+                str_replace(
+                    "/\"\'/", "",
+                    trim($var))));
     }
 
     function validateStringArray(array $array): array {

@@ -4,6 +4,7 @@
 
     use Generator;
     use mysqli;
+    use function utils\validateStringArray;
 
     class PropertyRepository
     {
@@ -31,7 +32,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -43,7 +44,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();

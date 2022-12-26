@@ -4,6 +4,7 @@
 
     use Generator;
     use mysqli;
+    use function utils\validateStringArray;
 
     class SubcategoryRepository
     {
@@ -12,7 +13,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -23,7 +24,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -35,7 +36,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -47,7 +48,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -63,7 +64,7 @@
 
             $query->close();
             $res->close();
-            return $row;
+            return validateStringArray($row);
         }
 
         public static function update(mysqli $con, int $id, string $name): bool {

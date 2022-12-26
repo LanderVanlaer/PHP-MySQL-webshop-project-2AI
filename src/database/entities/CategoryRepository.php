@@ -4,6 +4,7 @@
 
     use Generator;
     use mysqli;
+    use function utils\validateStringArray;
 
     class CategoryRepository
     {
@@ -12,7 +13,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -23,7 +24,7 @@
             $query->execute();
             $res = $query->get_result();
 
-            while ($row = $res->fetch_assoc()) yield $row;
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
 
             $query->close();
             $res->close();
@@ -48,7 +49,7 @@
 
             $query->close();
             $res->close();
-            return $row;
+            return validateStringArray($row);
         }
 
         public static function findOneByName(mysqli $con, string $name): array|null {
@@ -61,7 +62,7 @@
 
             $query->close();
             $res->close();
-            return $row;
+            return validateStringArray($row);
         }
 
         public static function create(mysqli $con, string $name, array $subcategories): int {
@@ -82,7 +83,7 @@
             return $categoryId;
         }
 
-        public static function addLink(mysqli $con, int $categoryId, array $subcategoryIds) {
+        public static function addLink(mysqli $con, int $categoryId, array $subcategoryIds): bool {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/category-subcategory.create.sql'));
 
             $query->bind_param("ii", $categoryId, $subCategoryId);
