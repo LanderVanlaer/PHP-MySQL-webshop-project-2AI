@@ -21,6 +21,7 @@
 
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/products/category.css">
+            <script src="/static/js/products/category-filter.js" defer></script>
         <?php }
 
 
@@ -52,6 +53,7 @@
             <h1>Category <?= $this->category["name"] ?></h1>
             <div id="specifications-products-wrapper">
                 <section id="specifications">
+                    <h2 class="none">Specifications</h2>
                     <form>
                         <ul>
                             <li id="brands">
@@ -78,7 +80,8 @@
                                         <legend><?= $subcategory["name"] ?></legend>
                                         <ul>
                                             <?php foreach (SpecificationRepository::findAllBySubcategoryId(self::getCon(), $subcategory["id"]) as $specification): ?>
-                                                <li data-specification-id="<?= $specification["id"] ?>">
+                                                <li data-specification-id="<?= $specification["id"] ?>"
+                                                    data-specification-type="<?= $specification["type"] ?>">
                                                     <span class="name"><?= $specification["name"] ?></span>
                                                     <?php $this->specificationToFilterOption($specification) ?>
                                                 </li>
@@ -91,6 +94,7 @@
                     </form>
                 </section>
                 <section id="products">
+                    <h2 class="none">Products</h2>
                     <ul>
                         <?php foreach (ProductRepository::findAllByCategoryAndThumbnail(self::getCon(), $this->category["id"]) as $product):
                             $link = "/product/{$product["id"]}"; ?>
@@ -126,11 +130,11 @@
                     <div class="number">
                         <label>
                             <span class="min">Min</span>
-                            <input type="number" value="<?= $min ?>" min="<?= $min ?>" max="<?= $max ?>">
+                            <input type="number" class="min" value="<?= $min ?>" min="<?= $min ?>" max="<?= $max ?>">
                         </label>
                         <label>
                             <span class="max">Max</span>
-                            <input type="number" value="<?= $max ?>" min="<?= $min ?>" max="<?= $max ?>">
+                            <input type="number" class="max" value="<?= $max ?>" min="<?= $min ?>" max="<?= $max ?>">
                         </label>
                     </div>
                     <?php break;
@@ -138,11 +142,11 @@
                     $properties = PropertyRepository::findAllBySpecificationAndCategory(self::getCon(), $specification["id"], $this->category["id"]); ?>
                     <div class="string">
                         <ul>
-                            <?php if ($properties->key()): ?>
+                            <?php if ($properties->valid()): ?>
                                 <?php foreach ($properties as $property): ?>
                                     <li>
                                         <label>
-                                            <input type="checkbox" value="<?= $property["specification_id"] ?>">
+                                            <input type="checkbox" value="<?= $property["value"] ?>">
                                             <span class="checkbox-custom"></span>
                                             <?= $property["value"] ?>
                                         </label>
@@ -170,7 +174,7 @@
                             <?php foreach (explode(",", $specification["notation"]) as $listValue): ?>
                                 <li>
                                     <label>
-                                        <input type="checkbox" name="" value="<?= $listValue ?>">
+                                        <input type="checkbox" value="<?= $listValue ?>">
                                         <span class="checkbox-custom"></span>
                                         <?= $listValue ?>
                                     </label>
