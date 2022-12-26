@@ -5,6 +5,7 @@
     use database\entities\BrandRepository;
     use database\entities\ProductImagesRepository;
     use database\entities\ProductRepository;
+    use database\entities\PropertyRepository;
     use Route;
     use function utils\redirect;
     use function utils\validateUrlValue;
@@ -101,7 +102,63 @@
                 </div>
             </section>
             <section id="properties-wrapper">
-                <h2 class="none">Properties</h2>
+                <h2>Properties</h2>
+                <div id="properties">
+                    <?php
+                        $previousSubcategoryId = -1;
+                        foreach (PropertyRepository::findAllByProduct(self::getCon(), $this->product["id"]) as $property):
+                        $newTable = $previousSubcategoryId != $property["subcategory_id"];
+                        if ($newTable):
+                        if ($previousSubcategoryId != -1) { ?>
+                            </tbody>
+                            </table>
+                        <?php }
+                        $previousSubcategoryId = $property["subcategory_id"];
+                    ?>
+                    <table>
+                        <caption><?= $property["subcategory_name"] ?></caption>
+                        <!-- <thead>-->
+                        <!-- <tr>-->
+                        <!-- <th>Name</th>-->
+                        <!-- <th>Value</th>-->
+                        <!-- </tr>-->
+                        <!-- </thead>-->
+                        <tbody>
+                            <?php endif; ?>
+                            <tr>
+                                <td><?= $property["specification_name"] ?></td>
+                                <td>
+                                    <?php
+                                        if (empty($property["property_value"]) && $property["specification_type"] != "boolean"):?>
+                                            <span class="empty">
+                                                    <img src="/static/images/minus.svg" alt="">
+                                            </span>
+                                        <?php else:
+                                            switch ($property["specification_type"]):
+                                                case "number": ?>
+                                                    <span class="type-number"><?= $property["property_value"] ?></span>
+                                                    <?php break;
+                                                case "string":
+                                                case "list": ?>
+                                                    <span class="type-string-list"><?= $property["property_value"] ?></span>
+                                                    <?php break;
+                                                case "boolean": ?>
+                                                    <img
+                                                            src="/static/images/<?= $property["property_value"] ? "check" : "cross" ?>.svg"
+                                                            alt="">
+                                                    <?php break;
+                                            endswitch;
+                                        endif;
+                                    ?>
+                                </td>
+                            </tr>
+                            <?php
+                                endforeach;
+                                if ($previousSubcategoryId != -1): ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+                </div>
             </section>
         <?php }
 
