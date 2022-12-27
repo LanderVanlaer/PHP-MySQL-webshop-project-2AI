@@ -136,11 +136,13 @@
                                         <?php else:
                                             switch ($property["specification_type"]):
                                                 case "number": ?>
-                                                    <span class="type-number"><?= $property["property_value"] ?></span>
+                                                    <span class="type-number"><?= $this->formatByNotation($property["property_value"], $property["specification_notation"]) ?></span>
                                                     <?php break;
-                                                case "string":
+                                                case "string": ?>
+                                                    <span class="type-string"><?= $this->formatByNotation($property["property_value"], $property["specification_notation"]) ?></span>
+                                                    <?php break;
                                                 case "list": ?>
-                                                    <span class="type-string-list"><?= $property["property_value"] ?></span>
+                                                    <span class="type-list"><?= $property["property_value"] ?></span>
                                                     <?php break;
                                                 case "boolean": ?>
                                                     <img
@@ -161,6 +163,13 @@
                 </div>
             </section>
         <?php }
+
+        private function formatByNotation($value, string|null $notation): string {
+            if (str_contains($notation, "{}")) {
+                return str_replace("{}", $value, $notation);
+            }
+            return $value;
+        }
 
         public function getDocumentTitle(): string {
             return $this->product["name"];
