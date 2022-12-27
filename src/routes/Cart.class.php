@@ -32,50 +32,75 @@
                         <thead>
                             <tr>
                                 <th colspan="2">product</th>
+                                <th>price</th>
                                 <th>amount</th>
+                                <th>total price</th>
                                 <th>change</th>
                                 <th>delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach (CartRepository::findAll(self::getCon(), $_SESSION["user"]["id"]) as $row) { ?>
-                                <tr>
-                                    <td class="center">
-                                        <?php if (!empty($row["path"])): ?>
-                                            <img src="/images/product/<?= $row["path"] ?>" alt="<?= $row["name"] ?>">
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <a href="/product/<?= $row["product_id"] ?>">
-                                            <?= $row["name"] ?>
-                                        </a>
-                                    </td>
-                                    <td class="center">
-                                        <?= $row["amount"] ?>
-                                    </td>
-                                    <td>
-                                        <form action="/cart/set-amount" method="POST" autocomplete="off">
-                                            <input type="hidden" name="product-id" value="<?= $row["product_id"] ?>">
-                                            <label>
-                                                Amount:
-                                                <input type="number" name="amount" min="1"
-                                                       value="<?= $row["amount"] ?>">
-                                            </label>
-                                            <button type="submit" class="btn-blue">Update</button>
-                                        </form>
-                                    </td>
-                                    <td class="center">
-                                        <form action="/cart/set-amount" method="POST" autocomplete="off">
-                                            <input type="hidden" name="product-id" value="<?= $row["product_id"] ?>">
-                                            <input type="hidden" name="amount" value="0">
-                                            <button type="submit" class="btn-blue">
-                                                <img src="/static/images/Icon_trash.svg" alt="">
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                            <?php
+                                $totalPrice = 0;
+                                $totalAmount = 0;
+                                foreach (CartRepository::findAll(self::getCon(), $_SESSION["user"]["id"]) as $row):
+                                    $totalPrice += $row["total_price"];
+                                    $totalAmount += $row["amount"];
+                                    ?>
+                                    <tr>
+                                        <td class="center">
+                                            <?php if (!empty($row["path"])): ?>
+                                                <img src="/images/product/<?= $row["path"] ?>"
+                                                     alt="<?= $row["name"] ?>">
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <a href="/product/<?= $row["product_id"] ?>">
+                                                <?= $row["name"] ?>
+                                            </a>
+                                        </td>
+                                        <td class="center">
+                                            &euro;&nbsp;<?= $row["price"] ?>
+                                        </td>
+                                        <td class="center">
+                                            <?= $row["amount"] ?>
+                                        </td>
+                                        <td class="center">
+                                            &euro; <?= $row["total_price"] ?>
+                                        </td>
+                                        <td class="change">
+                                            <form action="/cart/set-amount" method="POST" autocomplete="off">
+                                                <input type="hidden" name="product-id"
+                                                       value="<?= $row["product_id"] ?>">
+                                                <label>
+                                                    Amount:
+                                                    <input type="number" name="amount" min="1"
+                                                           value="<?= $row["amount"] ?>">
+                                                </label>
+                                                <button type="submit" class="btn-blue">Update</button>
+                                            </form>
+                                        </td>
+                                        <td class="center">
+                                            <form action="/cart/set-amount" method="POST" autocomplete="off">
+                                                <input type="hidden" name="product-id"
+                                                       value="<?= $row["product_id"] ?>">
+                                                <input type="hidden" name="amount" value="0">
+                                                <button type="submit" class="btn-blue">
+                                                    <img src="/static/images/Icon_trash.svg" alt="">
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="right">Total:</td>
+                                <td class="center"><?= $totalAmount ?></td>
+                                <td class="center">&euro;&nbsp;<?= $totalPrice ?></td>
+                                <td colspan="2"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div>

@@ -7,8 +7,22 @@
 }
 
 #cart {
-  td {
-    height: 6rem;
+  border: none;
+
+  td, th {
+    height: 7rem;
+    border: none;
+  }
+
+  tr {
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    padding: .5rem 0;
+  }
+
+  tfoot tr {
+    border-bottom: none;
+    font-size: 1.7rem;
   }
 
   img {
@@ -23,5 +37,17 @@
   button {
     font-size: 1.5rem;
     padding: .5rem;
+  }
+
+  .change form {
+    label {
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+    }
   }
 }
