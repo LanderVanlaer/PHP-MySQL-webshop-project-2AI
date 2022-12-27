@@ -41,26 +41,35 @@
             <section id="profile">
                 <h2>Profile</h2>
                 <div>
-                    <label>
-                        <span>User id</span>
-                        <input type="number" name="id" value="<?= $this->customer["id"] ?>" disabled>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span>First name:</span>
-                        <input type="text" name="first-name" value="<?= $this->customer["firstname"] ?>" disabled />
-                    </label>
-                    <label>
-                        <span>Last name:</span>
-                        <input type="text" name="last-name" value="<?= $this->customer["lastname"] ?>" disabled />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <span>Email:</span>
-                        <input type="text" name="email" value="<?= $this->customer["email"] ?>" disabled />
-                    </label>
+                    <div class="left">
+                        <div>
+                            <label>
+                                <span>User id</span>
+                                <input type="number" name="id" value="<?= $this->customer["id"] ?>" disabled>
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>First name:</span>
+                                <input type="text" name="first-name" value="<?= $this->customer["firstname"] ?>"
+                                       disabled />
+                            </label>
+                            <label>
+                                <span>Last name:</span>
+                                <input type="text" name="last-name" value="<?= $this->customer["lastname"] ?>"
+                                       disabled />
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <span>Email:</span>
+                                <input type="text" name="email" value="<?= $this->customer["email"] ?>" disabled />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <a href="/user/logout" class="btn-blue">Logout</a>
+                    </div>
                 </div>
             </section>
             <section id="orders">

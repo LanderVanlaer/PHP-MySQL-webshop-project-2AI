@@ -36,5 +36,6 @@
             new Product(),
             new UserPage(),
             new UserLoginPage(),
+            new UserLogoutPage(),
         );
     }

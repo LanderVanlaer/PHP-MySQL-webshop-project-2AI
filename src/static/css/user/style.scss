@@ -2,28 +2,49 @@
   padding: 1rem;
   font-size: 2rem;
 
-  div {
-    display: block;
-    margin-bottom: 4rem;
-    margin-top: 1rem;
-    padding-left: 2rem;
-    width: 40%;
+  > div {
+    display: flex;
 
-    label {
-      margin-top: 1rem;
-      display: flex;
+    > div {
+      $width: 40%;
+      width: $width;
 
-      span {
-        width: 20%;
-        display: inline-block;
-        text-align: right;
-        padding-right: 1rem;
+      &.left {
+        width: 100% - $width;
       }
 
-      input {
-        font-size: 2rem;
-        width: 80%;
-        display: inline-block;
+      &.right {
+        text-align: right;
+      }
+
+      a {
+        font-size: 3rem;
+      }
+
+      > div {
+        display: block;
+        margin-bottom: 4rem;
+        margin-top: 1rem;
+        padding-left: 2rem;
+        padding-right: 6rem;
+
+        label {
+          margin-top: 1rem;
+          display: flex;
+
+          span {
+            width: 20%;
+            display: inline-block;
+            text-align: right;
+            padding-right: 1rem;
+          }
+
+          input {
+            font-size: 2rem;
+            width: 80%;
+            display: inline-block;
+          }
+        }
       }
     }
   }
