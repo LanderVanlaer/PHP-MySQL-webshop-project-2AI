@@ -7,6 +7,7 @@
     use function utils\getErrors;
     use function utils\isLoggedInAsUser;
     use function utils\isOneEmpty;
+    use function utils\passwordPossible;
     use function utils\redirect;
 
     class UserRegisterPage extends Route
@@ -57,6 +58,12 @@
                 $this->errors[] = 0;
                 return parent::preRender();
             }
+
+            if (($passwordErrors = passwordPossible($GLOBALS["POST"]["password"])) && count($passwordErrors) > 0) {
+                $this->errors = array_merge($this->errors, $passwordErrors);
+                return parent::preRender();
+            }
+
 
             $customer = CustomerRepository::findOneByEmail(self::getCon(), $GLOBALS["POST"]["email"]);
 
