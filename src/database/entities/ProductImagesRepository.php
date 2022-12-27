@@ -73,4 +73,19 @@
 
             return validateStringArray($image);
         }
+
+        public static function findThumbnail(mysqli $con, int $id): array|null {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product-image.findOne.id,order.sql'));
+            $order = 0;
+            $query->bind_param("ii", $id, $order);
+            $query->execute();
+
+            $res = $query->get_result();
+            $image = $res->fetch_assoc();
+
+            $query->close();
+            $res->close();
+
+            return validateStringArray($image);
+        }
     }

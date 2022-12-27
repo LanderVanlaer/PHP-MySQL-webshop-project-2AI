@@ -49,3 +49,66 @@
     }
   }
 }
+
+#orders {
+  ul {
+    list-style: none;
+
+    li {
+      display: block;
+      margin: 2rem;
+      width: 70rem;
+      font-size: 1.5rem;
+      border: 1px solid #8f8f8f;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        tr {
+          td, th {
+            border: 1px solid #ccc;
+            height: 5rem;
+            padding: .5rem;
+          }
+
+          th.title {
+            font-size: 2rem;
+          }
+
+          td {
+            img {
+              max-height: 100%;
+              max-width: 100%;
+              width: 100%;
+              object-fit: contain;
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            border-bottom: 1px solid #ccc;
+          }
+        }
+
+        tfoot tr {
+          td, th {
+            border: none;
+            font-weight: bold;
+            padding-right: 1rem;
+            padding-left: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
