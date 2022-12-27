@@ -50,6 +50,59 @@
   }
 }
 
+#liked {
+  ul {
+    margin: 3rem 2rem;
+    display: flex;
+    list-style-type: none;
+    gap: 1rem;
+    font-size: 1.3rem;
+
+    li {
+      display: inline-block;
+      width: 15rem;
+      height: 15rem;
+      border: 1px solid #ccc;
+      border-radius: 1.5rem;
+      padding: 1rem;
+
+      a {
+        display: block;
+        height: 100%;
+
+        div, span {
+          display: block;
+          text-align: center;
+        }
+
+        div {
+          height: 15rem - 1rem * 2 - 1.3rem - .5rem;
+
+          img {
+            max-height: 100%;
+            max-width: 100%;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 1.5rem;
+          }
+        }
+
+        span {
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding-top: .5rem;
+        }
+      }
+
+      &:hover {
+        outline: 2px solid #999;
+      }
+    }
+  }
+}
+
 #orders {
   ul {
     list-style: none;

@@ -3,6 +3,7 @@
     namespace routes;
 
     use database\entities\CustomerRepository;
+    use database\entities\LikeRepository;
     use database\entities\OrderRepository;
     use database\entities\ProductImagesRepository;
     use database\entities\ProductRepository;
@@ -73,6 +74,28 @@
                         <a href="/user/logout" class="btn-blue">Logout</a>
                     </div>
                 </div>
+            </section>
+            <section id="liked">
+                <h2>Liked</h2>
+                <ul>
+                    <?php foreach (LikeRepository::findAllByCustomer(self::getCon(), $_SESSION["user"]["id"]) as $like): ?>
+                        <?php
+                        $product = ProductRepository::findOne(self::getCon(), $like["product_id"]);
+                        $thumbnail = ProductImagesRepository::findThumbnail(self::getCon(), $like["product_id"]);
+                        ?>
+                        <li>
+                            <a href="/product/<?= $product["id"] ?>">
+                                <div>
+                                    <?php if (!empty($thumbnail)): ?>
+                                        <img src="/images/product/<?= $thumbnail["path"] ?>"
+                                             alt="<?= $product["name"] ?>">
+                                    <?php endif; ?>
+                                </div>
+                                <span><?= $product["name"] ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
             </section>
             <section id="orders">
                 <h2>Orders</h2>

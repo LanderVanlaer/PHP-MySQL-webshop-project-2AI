@@ -2,6 +2,7 @@
 
     namespace database\entities;
 
+    use Generator;
     use mysqli;
     use function utils\validateStringArray;
 
@@ -44,5 +45,17 @@
             $query->close();
 
             return $val;
+        }
+
+        public static function findAllByCustomer(mysqli $con, int $customerId): Generator {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/like.findAll.customer-id.sql'));
+            $query->bind_param("i", $customerId);
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
+
+            $query->close();
+            $res->close();
         }
     }
