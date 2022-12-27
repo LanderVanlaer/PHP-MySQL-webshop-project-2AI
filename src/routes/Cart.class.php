@@ -41,7 +41,9 @@
                             <?php foreach (CartRepository::findAll(self::getCon(), $_SESSION["user"]["id"]) as $row) { ?>
                                 <tr>
                                     <td class="center">
-                                        <img src="/images/product/<?= $row["path"] ?>" alt="<?= $row["name"] ?>">
+                                        <?php if (!empty($row["path"])): ?>
+                                            <img src="/images/product/<?= $row["path"] ?>" alt="<?= $row["name"] ?>">
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <a href="/product/<?= $row["product_id"] ?>">
