@@ -18,7 +18,11 @@
 
         public function __destruct() {
             if (!is_null(self::$con)) {
-                self::$con->close();
+                try {
+                    self::$con->close();
+                } catch (Throwable) {
+                    //DELETE
+                }
             }
         }
     }

@@ -27,7 +27,11 @@
         $found = false;
         foreach (getApis() as $api) {
             if ($api->matchesPath($path)) {
-                echo json_encode($api->render());
+                try {
+                    echo json_encode($api->render());
+                } catch (Exception $e) {
+                    echo json_encode(['message' => $e->getMessage()]);
+                }
                 $found = true;
                 break;
             }

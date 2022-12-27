@@ -114,6 +114,24 @@
           width: $size;
           height: $size;
           margin-left: 2rem;
+
+          .outline {
+            display: inherit;
+          }
+
+          .filled {
+            display: none;
+          }
+
+          &.liked {
+            .outline {
+              display: none;
+            }
+
+            .filled {
+              display: inherit;
+            }
+          }
         }
       }
 

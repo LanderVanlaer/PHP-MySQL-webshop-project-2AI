@@ -3,6 +3,7 @@
     namespace api;
 
     use ApiRoute;
+    use Like;
     use Search;
 
     /**
@@ -11,5 +12,6 @@
     function getApis(): array {
         return array(
             new Search(),
+            new Like(),
         );
     }

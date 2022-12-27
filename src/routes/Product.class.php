@@ -3,10 +3,12 @@
     namespace routes;
 
     use database\entities\BrandRepository;
+    use database\entities\LikeRepository;
     use database\entities\ProductImagesRepository;
     use database\entities\ProductRepository;
     use database\entities\PropertyRepository;
     use Route;
+    use function utils\isLoggedInAsUser;
     use function utils\redirect;
     use function utils\validateUrlValue;
 
@@ -15,7 +17,6 @@
         private array $product;
         private array $brand;
         private array $images;
-        private bool $isLoggedIn;
 
         public function __construct() {
             parent::__construct(false, false, false);
@@ -24,6 +25,7 @@
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/product/style.css">
             <script defer src="/static/js/product/image-chooser.js"></script>
+            <script defer src="/static/js/product/like.js"></script>
         <?php }
 
         public function matchesPath(string $path): bool {
@@ -47,6 +49,8 @@
             $this->product = $product;
             $this->brand = BrandRepository::findOne(self::getCon(), $this->product["brand_id"]);
             $this->images = iterator_to_array(ProductImagesRepository::findByProduct(self::getCon(), $this->product["id"]));
+
+            session_start();
 
             return parent::preRender();
         }
@@ -89,11 +93,14 @@
                             <div id="price-with-sign">
                                 <span id="sign">&euro;</span>
                                 <span id="price"><?= $this->product["price"] ?></span>
-
-                                <button id="like" class="btn-blue">
-                                    <img src="/static/images/Icon_love_outline.svg" alt="">
-                                    <!-- <img src="/static/images/Icon_love_solid.svg" alt=""> -->
-                                </button>
+                                <?php if (isLoggedInAsUser()): ?>
+                                    <button
+                                            id="like"
+                                            class="btn-blue <?= empty(LikeRepository::findOne(self::getCon(), $_SESSION["user"]["id"], $this->product["id"])) ? "" : "liked" ?>">
+                                        <img class="outline" src="/static/images/Icon_love_outline.svg" alt="">
+                                        <img class="filled" src="/static/images/Icon_love_solid.svg" alt="">
+                                    </button>
+                                <?php endif; ?>
                             </div>
                             <a id="add" href="/cart/add/<?= $this->product["id"] ?>" class="btn-blue center">
                                 <img src="/static/images/Icon_basket-white.svg" alt="">
