@@ -60,4 +60,25 @@
             $query->close();
             $res->close();
         }
+
+        public static function toOrder(mysqli $con, int $customerId): bool {
+            $orderId = OrderRepository::create($con, $customerId);
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/order-product.insert.carts.sql'));
+            $query->bind_param('ii', $orderId, $customerId);
+
+            $val = $query->execute();
+            $query->close();
+
+            return $val && self::delete($con, $customerId);
+        }
+
+        public static function delete(mysqli $con, int $customerId): bool {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.delete.customer-id.sql'));
+            $query->bind_param('i', $customerId);
+
+            $val = $query->execute();
+            $query->close();
+
+            return $val;
+        }
     }

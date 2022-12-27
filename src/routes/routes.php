@@ -40,5 +40,6 @@
             new CartAdd(),
             new Cart(),
             new CartSetAmount(),
+            new CartOrder(),
         );
     }

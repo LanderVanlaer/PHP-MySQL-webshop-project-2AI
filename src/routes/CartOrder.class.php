@@ -4,39 +4,56 @@
 
     use database\entities\CartRepository;
     use Route;
+    use function utils\redirect;
 
-    class Cart extends Route
+    class CartOrder extends Route
     {
         public function __construct() {
             parent::__construct(true, false, false);
         }
 
         public function matchesPath(string $path): bool {
-            return $path === "/cart";
+            return $path === "/cart/order";
         }
 
         public function getDocumentTitle(): string {
-            return "Cart";
+            return "Confirm Order";
         }
 
         public function renderHead(): void { ?>
             <link rel="stylesheet" href="/static/css/admin/table.css">
             <link rel="stylesheet" href="/static/css/cart/style.css">
+            <style>
+                .large button {
+                    margin-top: 2rem;
+                }
+            </style>
         <?php }
 
-        public function render(): void { ?>
+        public function preRender(): bool {
+            if (!CartRepository::findAll(self::getCon(), $_SESSION["user"]["id"])->valid())
+                redirect("/cart");
+
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                CartRepository::toOrder(self::getCon(), $_SESSION["user"]["id"]);
+                redirect("/user");
+            }
+
+            return parent::preRender();
+        }
+
+        public
+        function render(): void { ?>
             <div class="split">
                 <div>
                     <table id="cart">
-                        <caption>Cart</caption>
+                        <caption>Order</caption>
                         <thead>
                             <tr>
                                 <th colspan="2">product</th>
                                 <th>price</th>
                                 <th>amount</th>
                                 <th>total price</th>
-                                <th>change</th>
-                                <th>delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,28 +85,6 @@
                                         <td class="center">
                                             &euro;&nbsp;<?= $row["total_price"] ?>
                                         </td>
-                                        <td class="change">
-                                            <form action="/cart/set-amount" method="POST" autocomplete="off">
-                                                <input type="hidden" name="product-id"
-                                                       value="<?= $row["product_id"] ?>">
-                                                <label>
-                                                    Amount:
-                                                    <input type="number" name="amount" min="1"
-                                                           value="<?= $row["amount"] ?>">
-                                                </label>
-                                                <button type="submit" class="btn-blue">Update</button>
-                                            </form>
-                                        </td>
-                                        <td class="center">
-                                            <form action="/cart/set-amount" method="POST" autocomplete="off">
-                                                <input type="hidden" name="product-id"
-                                                       value="<?= $row["product_id"] ?>">
-                                                <input type="hidden" name="amount" value="0">
-                                                <button type="submit" class="btn-blue">
-                                                    <img src="/static/images/Icon_trash.svg" alt="">
-                                                </button>
-                                            </form>
-                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                         </tbody>
@@ -98,15 +93,15 @@
                                 <td colspan="3" class="right">Total:</td>
                                 <td class="center"><?= $totalAmount ?></td>
                                 <td class="center">&euro;&nbsp;<?= $totalPrice ?></td>
-                                <td colspan="2"></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 <div class="center large">
-                    <?php if ($totalAmount): ?>
-                        <a href="/cart/order" class="btn-blue">Bestellen</a>
-                    <?php endif; ?>
+                    <h2>Confirm Order</h2>
+                    <form method="POST">
+                        <button class="btn-blue">Confirm</button>
+                    </form>
                 </div>
             </div>
         <?php }
