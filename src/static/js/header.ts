@@ -1,19 +1,19 @@
-interface ICategorySearch {
-  id: number,
-  nameD: string,
-  nameF: string,
-  nameE: string,
-}
-
-interface IArticleSearch {
+interface CategorySearch {
   id: number,
   name: string,
-  path: string,
 }
 
-interface ISearch {
-  categories: Array<ICategorySearch>,
-  articles: Array<IArticleSearch>
+interface ProductSearch {
+  id: number,
+  name: string,
+  description: string,
+  price: string,
+  path: string | null,
+}
+
+interface Search {
+  categories: Array<CategorySearch>,
+  products: Array<ProductSearch>
 }
 
 //------------------- SEARCH -------------------//
@@ -22,38 +22,77 @@ const inputSearch: HTMLInputElement = searchDiv.querySelector<HTMLInputElement>(
 const ulSearch: HTMLUListElement = searchDiv.querySelector<HTMLUListElement>('ul');
 const overlay: HTMLDivElement = document.querySelector<HTMLDivElement>('div#searching-overlay');
 
-const fetchSearch = async (q: string): Promise<ISearch> => {
-  const res: Response = await fetch(`/api/search.php?q=${q}`);
+const fetchSearch = async (q: string): Promise<Search> => {
+  const res: Response = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
   return await res.json();
-};
-
-const getLanguage = (): string => {
-  const lReg = document.cookie.match(/lang=([dfe])/);
-  return lReg ? lReg[1] : 'e';
 };
 
 inputSearch.addEventListener('input', async () => {
     const value: string = inputSearch.value.trim();
     if (!value) {
       overlay.style.display = 'none';
-      return ulSearch.innerHTML = null;
+      ulSearch.replaceChildren();
+      return;
     }
     overlay.style.display = 'block';
 
-    const bold: (s: string) => string = (s: string) => s.replaceAll(new RegExp(`(.*)(${value})(.*)`, 'gi'), '$1<b>$2</b>$3');
+    const data: Search = await fetchSearch(value);
+    ulSearch.replaceChildren();
 
-    const data: ISearch = await fetchSearch(value);
-    ulSearch.innerHTML = null;
+    const bold = (s: string): [HTMLElement, HTMLElement, HTMLElement] => {
+      const strong = document.createElement('strong');
+      strong.textContent = value.toLowerCase();
 
-    data.categories.forEach((category: ICategorySearch) => {
+      const i = s.toLowerCase().indexOf(value.toLowerCase());
+
+      const span1 = document.createElement('span');
+      span1.textContent = i >= 0 ? s.substring(0, i) : s;
+
+      if (i < 0) return [span1, null, null];
+
+      const span2 = document.createElement('span');
+      span2.textContent = s.substring(i + value.length);
+      return [span1, strong, span2];
+    };
+
+    data.categories.forEach((category: CategorySearch) => {
       const li: HTMLLIElement = document.createElement<'li'>('li');
-      li.innerHTML = `<a href="/articles/${category.id}"><div>${bold(category[`name${getLanguage().toUpperCase()}`])}</div><div></div></a>`;
+      const a: HTMLAnchorElement = document.createElement<'a'>('a');
+
+      a.href = `/products/${category.id}`;
+
+      const div: HTMLDivElement = document.createElement<'div'>('div');
+      div.append(...bold(category.name).filter(f => f != null));
+      const div2: HTMLDivElement = document.createElement<'div'>('div');
+
+      a.appendChild(div);
+      a.appendChild(div2);
+      li.appendChild(a);
+
       ulSearch.appendChild<HTMLLIElement>(li);
     });
 
-    data.articles.forEach((article: IArticleSearch) => {
+    data.products.forEach((article: ProductSearch) => {
       const li: HTMLLIElement = document.createElement<'li'>('li');
-      li.innerHTML = `<a href="/article/${article.id}"><div>${bold(article.name)}</div><div class="image"><img src="/images/articles/${article.path}" alt="${article.name}"></div></a>`;
+      const a: HTMLAnchorElement = document.createElement<'a'>('a');
+
+      a.href = `/product/${article.id}`;
+
+      const div: HTMLDivElement = document.createElement<'div'>('div');
+      div.append(...bold(article.name).filter(f => f != null));
+      const div2: HTMLDivElement = document.createElement<'div'>('div');
+      if (article.path) {
+        div2.classList.add('image');
+
+        const img: HTMLImageElement = document.createElement<'img'>('img');
+        img.src = `/images/product/${article.path}`;
+        img.alt = article.name;
+        div2.appendChild(img);
+      }
+      a.appendChild(div);
+      a.appendChild(div2);
+      li.appendChild(a);
+
       ulSearch.appendChild<HTMLLIElement>(li);
     });
   }
@@ -61,7 +100,7 @@ inputSearch.addEventListener('input', async () => {
 const setActive = (b: boolean) => {
   if (b) {
     searchDiv.classList.add('active');
-    if (inputSearch.value.trim())
+    if (inputSearch.value.trim() !== '')
       overlay.style.display = 'block';
   } else {
     searchDiv.classList.remove('active');
