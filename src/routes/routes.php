@@ -37,5 +37,6 @@
             new UserPage(),
             new UserLoginPage(),
             new UserLogoutPage(),
+            new CartAdd(),
         );
     }

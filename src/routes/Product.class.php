@@ -15,6 +15,7 @@
         private array $product;
         private array $brand;
         private array $images;
+        private bool $isLoggedIn;
 
         public function __construct() {
             parent::__construct(false, false, false);
@@ -94,9 +95,14 @@
                                     <!-- <img src="/static/images/Icon_love_solid.svg" alt=""> -->
                                 </button>
                             </div>
-                            <button id="add" class="btn-blue">
+                            <a id="add" href="/cart/add/<?= $this->product["id"] ?>" class="btn-blue center">
                                 <img src="/static/images/Icon_basket-white.svg" alt="">
-                            </button>
+                            </a>
+                        </div>
+                        <div>
+                            <p id="description">
+                                <?= $this->product["description"] ?>
+                            </p>
                         </div>
                     </div>
                 </div>

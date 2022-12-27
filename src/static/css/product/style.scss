@@ -96,7 +96,7 @@
       width: 100% - $images-wrapper-width;
       text-align: right;
       font-size: 4rem;
-      padding: 10rem;
+      padding: 10rem 10rem 10rem 2rem;
 
       #price-with-sign {
         margin-bottom: 2rem;
@@ -120,6 +120,16 @@
       #add {
         font-size: 3.5rem;
         width: 50%;
+
+        img {
+          height: 3.5rem;
+        }
+      }
+
+      #description {
+        text-align: justify;
+        margin-top: 2rem;
+        font-size: 1.5rem;
       }
     }
   }
