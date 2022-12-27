@@ -2,6 +2,7 @@
 
     namespace database\entities;
 
+    use Generator;
     use mysqli;
     use function utils\validateStringArray;
 
@@ -30,16 +31,33 @@
         }
 
         public static function setAmountTo(mysqli $con, int $customerId, int $productId, int $amount, bool $checkDuplicate = true, bool $update = true): bool {
-            if (($checkDuplicate && !empty(self::findByProduct($con, $customerId, $productId))) || (!$checkDuplicate && $update)) {
-                $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.update.sql'));
+            if ($amount === 0) {
+                $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.delete.sql'));
+                $query->bind_param("ii", $customerId, $productId);
             } else {
-                $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.create.sql'));
+                if (($checkDuplicate && !empty(self::findByProduct($con, $customerId, $productId))) || (!$checkDuplicate && $update)) {
+                    $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.update.sql'));
+                } else {
+                    $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.create.sql'));
+                }
+                $query->bind_param("iii", $amount, $customerId, $productId);
             }
 
-            $query->bind_param("iii", $amount, $customerId, $productId);
             $val = $query->execute();
             $query->close();
 
             return $val;
+        }
+
+        public static function findAll(mysqli $con, int $customerId): Generator {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/cart.findAll.customer-id.sql'));
+            $query->bind_param('i', $customerId);
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
+
+            $query->close();
+            $res->close();
         }
     }

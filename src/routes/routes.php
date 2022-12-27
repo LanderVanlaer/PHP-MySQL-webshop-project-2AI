@@ -38,5 +38,7 @@
             new UserLoginPage(),
             new UserLogoutPage(),
             new CartAdd(),
+            new Cart(),
+            new CartSetAmount(),
         );
     }

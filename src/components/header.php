@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li id="basket">
-                <a href="/user/shopping-list">
+                <a href="/cart">
                     <img src="/static/images/Icon_basket-gradient.svg" alt="basket">
                 </a>
             </li>

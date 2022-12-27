@@ -4,4 +4,5 @@ SELECT id,
        amount
 FROM shoppingcartproducts
 WHERE customer_id = ?
-  AND product_id = ?;
+  AND product_id = ?
+LIMIT 1;

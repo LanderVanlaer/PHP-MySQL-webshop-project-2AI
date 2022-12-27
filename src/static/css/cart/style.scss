@@ -1,0 +1,27 @@
+.split {
+  display: flex;
+
+  > div:first-child {
+    width: 70%;
+  }
+}
+
+#cart {
+  td {
+    height: 6rem;
+  }
+
+  img {
+    max-width: 8rem;
+    max-height: 100%;
+  }
+
+  input {
+    width: 5rem;
+  }
+
+  button {
+    font-size: 1.5rem;
+    padding: .5rem;
+  }
+}
