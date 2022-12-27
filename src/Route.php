@@ -1,8 +1,7 @@
 <?php
 
-    abstract class Route
+    abstract class Route extends DatabaseImplementedObject
     {
-        private static ?mysqli $con = null;
         /**
          * @var bool Whether the admin has to be logged in
          */
@@ -27,24 +26,6 @@
             $this->isAdminPage = $isAdminPage;
         }
 
-
-        /**
-         * Get database connection
-         *
-         * @return mysqli
-         */
-        public static function getCon(): mysqli {
-            if (is_null(self::$con)) {
-                self::$con = utils\database\createConnection();
-            }
-            return self::$con;
-        }
-
-        public function __destruct() {
-            if (!is_null(self::$con)) {
-                self::$con->close();
-            }
-        }
 
         abstract public function matchesPath(string $path): bool;
 

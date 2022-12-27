@@ -9,6 +9,8 @@
             include_once "{$class}.php"; //NOSONAR
         } elseif (file_exists("database/entities/{$class}.php")) {
             include_once "database/entities/{$class}.php"; //NOSONAR
+        } elseif (file_exists("api/{$class}.class.php")) {
+            include_once "api/{$class}.class.php"; //NOSONAR
         }
     });
 

@@ -83,4 +83,17 @@
 
             return $val;
         }
+
+        public static function query(mysqli $con, string $name): Generator {
+            $name = "%$name%";
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/product.query.name.sql'));
+            $query->bind_param("s", $name);
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
+
+            $query->close();
+            $res->close();
+        }
     }
