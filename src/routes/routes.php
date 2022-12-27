@@ -34,5 +34,7 @@
             new AdminEmployeeEdit(),
             new ProductsCategory(),
             new Product(),
+            new UserPage(),
+            new UserLoginPage(),
         );
     }

@@ -54,7 +54,9 @@
                     trim($var))));
     }
 
-    function validateStringArray(array $array): array {
+    function validateStringArray(array|null $array): array|null {
+        if ($array == null) return null;
+
         foreach ($array as &$e) {
             if (is_array($e))
                 $e = validateStringArray($e);

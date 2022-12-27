@@ -25,7 +25,7 @@
         session_start();
 
         if ($route->hasToBeLoggedInAsUser && !isLoggedInAsUser())
-            redirect("/login");
+            redirect("/user/login");
         if ($route->hasToBeLoggedInAsAdmin && !isLoggedInAsAdmin())
             redirect("/admin/login");
     }
