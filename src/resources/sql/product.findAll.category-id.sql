@@ -12,4 +12,5 @@ FROM product
          LEFT JOIN productimage on product.id = productimage.product_id
          LEFT JOIN brand b on product.brand_id = b.id
 WHERE category_id = ?
-  AND (productimage.`order` = 0 OR productimage.`order` IS NULL);
+  AND (productimage.`order` = 0 OR productimage.`order` IS NULL)
+  AND product.public IS TRUE;
