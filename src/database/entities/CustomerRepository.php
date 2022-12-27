@@ -30,4 +30,13 @@
 
             return validateStringArray($row);
         }
+
+        public static function create(mysqli $con, string $email, string $passwordHash, string $lastname, string $firstname): int {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/customer.create.sql'));
+            $query->bind_param("ssss", $firstname, $lastname, $email, $passwordHash);
+            $query->execute();
+            $query->close();
+
+            return $con->insert_id;
+        }
     }

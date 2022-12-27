@@ -36,6 +36,10 @@
                 form label input {
                     font-size: 2rem;
                 }
+
+                div.center {
+                    font-size: 1.5rem;
+                }
             </style>
         <?php }
 
@@ -100,5 +104,8 @@
                     <button class="btn-blue" type="submit">Login</button>
                 </label>
             </form>
+            <div class="center">
+                <a href="/user/register">I don't have an account yet</a>
+            </div>
         <?php }
     }

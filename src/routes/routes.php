@@ -41,5 +41,6 @@
             new Cart(),
             new CartSetAmount(),
             new CartOrder(),
+            new UserRegisterPage(),
         );
     }

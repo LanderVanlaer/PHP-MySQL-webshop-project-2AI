@@ -1,0 +1,43 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+form label {
+  font-size: 2rem;
+  width: 25rem;
+}
+
+form label input {
+  font-size: 2rem;
+}
+
+div.center {
+  font-size: 1.5rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+
+  > div {
+    width: 50%;
+  }
+}
+
+.name {
+  width: 52rem;
+
+  input[name="email"] {
+    width: 100%;
+  }
+}
+
+.error {
+  color: red;
+  font-size: .75em;
+}
