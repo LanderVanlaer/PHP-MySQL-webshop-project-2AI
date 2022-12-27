@@ -147,7 +147,7 @@
             </section>
         <?php }
 
-        private function printProductRow(array $order): int {
+        private function printProductRow(array $order): float {
             $product = ProductRepository::findOne(self::getCon(), $order["product_id"]);
             ?>
             <tr>
