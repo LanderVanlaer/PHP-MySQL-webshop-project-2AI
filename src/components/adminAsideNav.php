@@ -10,6 +10,7 @@
                         "Subcategory",
                         "Customer",
                         "Employee",
+                        "Order",
                 ];
 
                 foreach ($tables as $table) { ?>

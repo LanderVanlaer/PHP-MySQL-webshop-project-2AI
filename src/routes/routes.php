@@ -44,5 +44,6 @@
             new UserRegisterPage(),
             new AdminCustomer(),
             new AdminCustomerEdit(),
+            new AdminOrder(),
         );
     }

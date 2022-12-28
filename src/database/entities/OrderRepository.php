@@ -28,4 +28,15 @@
             $query->close();
             $res->close();
         }
+
+        public static function findAllSortedByDate(mysqli $con): Generator {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/order.findAll.sort-date.sql'));
+            $query->execute();
+            $res = $query->get_result();
+
+            while ($row = $res->fetch_assoc()) yield validateStringArray($row);
+
+            $query->close();
+            $res->close();
+        }
     }
