@@ -44,7 +44,7 @@
 
 
             if ($_SERVER["REQUEST_METHOD"] !== "GET" && $this->postPreRender()) {
-                redirect("/admin/product/$id/edit");
+                redirect("/admin/productimage/$id/edit");
             }
 
             if (!empty($GLOBALS["GET"]["delete-image-id"])
