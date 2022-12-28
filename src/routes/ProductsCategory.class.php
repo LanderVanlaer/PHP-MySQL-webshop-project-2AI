@@ -135,7 +135,12 @@
         private function specificationToFilterOption(array $specification) {
             switch ($specification["type"]):
                 case "number":
-                    [$min, $max] = $this->specificationsMinMaxNumber($specification); ?>
+                    [$min, $max] = $this->specificationsMinMaxNumber($specification);
+                    if ($min == INF) {
+                        $min = 0;
+                        $max = 0;
+                    }
+                    ?>
                     <div class="number">
                         <label>
                             <span class="min">Min</span>
@@ -218,6 +223,6 @@
         }
 
         public function getDocumentTitle(): string {
-            return "Homepage";
+            return "Category " . $this->category["name"];
         }
     }
