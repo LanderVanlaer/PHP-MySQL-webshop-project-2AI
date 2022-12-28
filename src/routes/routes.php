@@ -43,5 +43,6 @@
             new CartOrder(),
             new UserRegisterPage(),
             new AdminCustomer(),
+            new AdminCustomerEdit(),
         );
     }

@@ -51,4 +51,22 @@
             $query->close();
             $res->close();
         }
+
+
+        public static function update(mysqli $con, int $id, mixed $firstname, mixed $lastname, string|null $passwordHash, mixed $email): bool {
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/customer.update.sql'));
+            $query->bind_param("sssi", $firstname, $lastname, $email, $id);
+            $val = $query->execute();
+            $query->close();
+
+            if (!$val || $passwordHash == null)
+                return $val;
+
+            $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/customer.update.password.sql'));
+            $query->bind_param("si", $passwordHash, $id);
+            $val = $query->execute();
+            $query->close();
+
+            return $val;
+        }
     }
