@@ -45,5 +45,6 @@
             new AdminCustomer(),
             new AdminCustomerEdit(),
             new AdminOrder(),
+            new AdminOrderDetails(),
         );
     }

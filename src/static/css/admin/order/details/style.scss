@@ -1,0 +1,22 @@
+.top-wrapper {
+  display: flex;
+  margin-bottom: 5rem;
+
+  &, input {
+    font-size: 2rem;
+  }
+
+  > div {
+    width: 50%;
+
+    fieldset {
+      border: none;
+    }
+
+    label {
+      display: block;
+      margin-left: 1.5rem;
+      margin-top: .5rem;
+    }
+  }
+}
