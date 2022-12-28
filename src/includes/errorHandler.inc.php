@@ -2,7 +2,7 @@
 
     use function utils\redirect;
 
-    $LOG_DIRECTORY = __DIR__ . "/../../log/";
+    $LOG_DIRECTORY = __DIR__ . "/../log/";
 
     function errorHandler(int $errNo, string $errMsg, string $file, int $line): void {
         global $LOG_DIRECTORY;

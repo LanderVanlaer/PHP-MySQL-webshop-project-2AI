@@ -184,3 +184,6 @@ fabric.properties
 /src/images
 
 /log
+
+/src/log/*
+!/src/log/.htaccess
