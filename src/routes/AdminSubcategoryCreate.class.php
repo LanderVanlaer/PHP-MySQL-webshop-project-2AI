@@ -164,7 +164,7 @@
                                     </td>
                                     <td>
                                         <!--suppress HtmlFormInputWithoutLabel -->
-                                        <input type="text" max="255" name="specification-notation[<?= $key ?>]"
+                                        <input type="text" maxlength="255" name="specification-notation[<?= $key ?>]"
                                                id="specification-notation[<?= $key ?>]"
                                                value="<?= $GLOBALS["POST"]["specification-notation"][$key] ?>">
                                     </td>
@@ -176,7 +176,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="5">
                                     <button type="button" id="add-row" class="btn-blue">Voeg rij toe</button>
                                 </td>
                             </tr>
