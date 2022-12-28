@@ -1,7 +1,7 @@
 const like = document.getElementById('like');
 like.addEventListener('click', () => {
   const formdata = new FormData();
-  formdata.append('product-id', location.pathname.match(/^\/product\/(\d)/)[1]);
+  formdata.append('product-id', location.pathname.match(/^\/product\/(\d+)/)[1]);
 
   fetch('/api/like', {
     method: 'POST',
