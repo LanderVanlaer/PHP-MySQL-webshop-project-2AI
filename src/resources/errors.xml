@@ -10,6 +10,7 @@
   <error id="2">De ingevulde gegevens zijn niet geldig</error>
   <error id="3">Een van de gegeven links bestaat niet</error>
   <error id="4">Er bestaat al een gebruiker met dit e-mailadres</error>
+  <error id="5">Gebruiker is niet actief, contacteer onze klantenservice voor meer hulp</error>
   <error id="100">Er is iets fout gelopen</error>
   <error id="1000">Er is reeds een duplicaat</error>
   <error id="1500">Het gegeven bestand is geen (ondersteunde) afbeelding</error>

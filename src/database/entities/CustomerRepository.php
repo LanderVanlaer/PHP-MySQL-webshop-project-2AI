@@ -53,9 +53,9 @@
         }
 
 
-        public static function update(mysqli $con, int $id, mixed $firstname, mixed $lastname, string|null $passwordHash, mixed $email): bool {
+        public static function update(mysqli $con, int $id, mixed $firstname, mixed $lastname, bool $active, string|null $passwordHash, mixed $email): bool {
             $query = $con->prepare(file_get_contents(__DIR__ . '/../../resources/sql/customer.update.sql'));
-            $query->bind_param("sssi", $firstname, $lastname, $email, $id);
+            $query->bind_param("sssii", $firstname, $lastname, $email, $active, $id);
             $val = $query->execute();
             $query->close();
 

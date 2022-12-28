@@ -74,6 +74,11 @@
                 return parent::preRender();
             }
 
+            if (!$customer["active"]) {
+                $this->errors[] = 5;
+                return parent::preRender();
+            }
+
             //password and username matches
             $_SESSION["user"] = objectPick($customer, "id", "email");
 

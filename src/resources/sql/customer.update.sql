@@ -1,5 +1,6 @@
 UPDATE customer
 SET firstname = ?,
     lastname  = ?,
-    email     = ?
+    email     = ?,
+    active    = ?
 WHERE id = ?;

@@ -1,2 +1,2 @@
-SELECT id, firstname, lastname, email
+SELECT id, firstname, lastname, email, active
 FROM customer;

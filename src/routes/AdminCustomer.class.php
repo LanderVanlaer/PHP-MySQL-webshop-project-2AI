@@ -30,6 +30,7 @@
                     <tr>
                         <th scope="col" rowspan="2">Edit</th>
                         <th scope="col" rowspan="2">id</th>
+                        <th scope="col" rowspan="2">active</th>
                         <th scope="colgroup" colspan="2">name</th>
                         <th scope="col" rowspan="2">email</th>
                     </tr>
@@ -43,6 +44,7 @@
                         <tr>
                             <td class="edit"><a href="/admin/customer/<?= $row["id"] ?>/edit">edit</a></td>
                             <td class="right"><?= $row["id"] ?></td>
+                            <td class="center"><?= $row["active"] ?></td>
                             <td><?= $row["firstname"] ?></td>
                             <td><?= $row["lastname"] ?></td>
                             <td><?= $row["email"] ?></td>

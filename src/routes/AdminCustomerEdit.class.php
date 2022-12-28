@@ -54,6 +54,7 @@
             $firstname = $GLOBALS["POST"]["firstname"];
             $lastname = $GLOBALS["POST"]["lastname"];
             $email = $GLOBALS["POST"]["email"];
+            $active = !empty($GLOBALS["POST"]["active"]);
             $password = empty($GLOBALS["POST"]["password"]) ? null : $GLOBALS["POST"]["password"];
 
             if ($password != null && ($passwordErrors = passwordPossible($password)) && count($passwordErrors) > 0) {
@@ -68,7 +69,7 @@
                 return false;
             }
 
-            if (!CustomerRepository::update(self::getCon(), $id, $firstname, $lastname, empty($password) ? null : password_hash($password, PASSWORD_DEFAULT), $email)) {
+            if (!CustomerRepository::update(self::getCon(), $id, $firstname, $lastname, $active, empty($password) ? null : password_hash($password, PASSWORD_DEFAULT), $email)) {
                 $this->mysqlError = mysqli_error(self::getCon());
                 return false;
             }
@@ -107,24 +108,29 @@
                 <?php } ?>
                 <fieldset>
                     <legend>Name</legend>
-                    <label>
+                    <label class="vertical">
                         <span class="required">firstname:</span>
                         <input type="text" name="firstname" required value="<?= $this->customer["firstname"] ?>">
                     </label>
-                    <label>
+                    <label class="vertical">
                         <span class="required">lastname:</span>
                         <input type="text" name="lastname" required value="<?= $this->customer["lastname"] ?>">
                     </label>
                 </fieldset>
                 <fieldset>
                     <legend>credentials</legend>
-                    <label>
+                    <label class="vertical">
                         <span class="required">email:</span>
                         <input type="text" name="email" required value="<?= $this->customer["email"] ?>">
                     </label>
-                    <label>
+                    <label class="vertical">
                         <span>password:</span>
                         <input type="password" name="password">
+                    </label>
+                    <label class="vertical">
+                        Active: <input type="checkbox" <?= $this->customer["active"] ? "checked" : "" ?>
+                                       name="active">
+                        <span class="checkbox-custom"></span>
                     </label>
                 </fieldset>
                 <button type="submit" class="btn-blue">Submit</button>
