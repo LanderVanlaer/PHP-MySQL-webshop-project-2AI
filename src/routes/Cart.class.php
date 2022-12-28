@@ -92,6 +92,17 @@
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
+                            <?php if ($totalAmount === 0): ?>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                         <tfoot>
                             <tr>
